@@ -700,6 +700,11 @@
 
 # dispatcher to process metering data (multi valued)
 #dispatcher=database
+# Forwards metering data to another server
+#dispatcher=rpc
+
+[dispatcher_rpc]
+#transport_url=rabbit://guest:guest@localhost:5672/api
 
 
 [matchmaker_ring]
