@@ -1,0 +1,11 @@
+--- a/etc/ceilometer/ceilometer.conf.sample
++++ b/etc/ceilometer/ceilometer.conf.sample
+@@ -262,7 +262,7 @@
+ 
+ ######## defined in ceilometer.storage ########
+ 
+-# database_connection=mongodb://localhost:27017/ceilometer
++database_connection=sqlite:////var/lib/ceilometer/ceilometer.sqlite
+ #### (StrOpt) Database connection string
+ 
+ 

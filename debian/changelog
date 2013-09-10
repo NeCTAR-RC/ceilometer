@@ -1,0 +1,82 @@
+ceilometer (2013.1.3-nectar2) precise-grizzly; urgency=low
+
+  * Fix to flavor get
+
+ -- Sam Morrison <sorrison@gmail.com>  Mon, 29 Jul 2013 13:38:41 +1000
+
+ceilometer (2013.1.3-nectar1) precise-grizzly; urgency=low
+
+  * Added backport for conductor and libvirt uuid
+
+ -- Sam Morrison <sorrison@gmail.com>  Mon, 29 Jul 2013 11:16:03 +1000
+
+ceilometer (2013.1-0ubuntu1) raring; urgency=low
+
+  * New upstream release. 
+
+ -- Chuck Short <zulcss@ubuntu.com>  Fri, 05 Apr 2013 14:34:37 -0500
+
+ceilometer (2013.1~rc1-0ubuntu1) raring; urgency=low
+
+  [ Chuck Short ]
+  * New upstream release. 
+  * debian/watch: point to the right releases.
+  * debian/rules: Enable testsuite.
+  * debian/ceilometer-agent-compute.postinst: Add smarts to 
+    configure users after install.
+  * debian/ceilometer-common.postinst: Configure ceilometer db.
+  * debian/ceilometer-common.install: Install configuration files.
+  * debian/*.upstart: Update and use start-stop-daemon.
+
+  [ James Page ]
+  * Added watch file.
+  * d/rules: Fixup test suite execution as much as possible:
+    - Set PYTHONPATH to CURDIR during execution.
+    - Provide HOME directory for keystone tests.
+    - Override clean to tidy up after execution.
+  * d/control: Tidied BD's:
+    - Drop python-ming (not the right ming).
+    - python-oslo-config -> python-oslo.config.
+    - Dropped misc other surplus/duplicate dependencies.
+    - Wrapped and sorted.
+  * d/p/request-dep.patch: Remove upper bound on python-requests inline with
+    the rest of OpenStack.
+  * d/p/remove-hbase-support.patch: Remove happybase dependency.
+  * d/control: Bumped Standards-Version, no changes.
+
+  [ Yolanda Robla ]
+  * d/rules: Copy ceilometer.conf.sample to ceilometer.conf.
+  * d/ceilometer-common.install: Install ceilometer.conf and ceilometer-dbsync.
+  * d/ceilometer-common.postinst: fixing user/group creation.
+  * d/*.upstart: Fix upstart jobs.
+  * d/pydist-overrides: Correct pymongo and wsme package names.
+  * d/control: modified mongodb recommends to suggests (LP: #1131627).
+  * d/files: copying pipeline.yaml.
+  * d/control: fixed typo (LP: #1140309).
+  * d/patches/default-dbconnection-sqlite.patch: default db to sqlite
+
+ -- Chuck Short <zulcss@ubuntu.com>  Tue, 26 Mar 2013 11:23:03 -0500
+
+ceilometer (0.1-0ubuntu2) raring; urgency=low
+
+  * Fix typo in debian/control (ceioleter -> ceilometer) (LP: #1140309)
+
+ -- Hans Joachim Desserud <ubuntu@desserud.org>  Sun, 03 Mar 2013 20:08:39 +0100
+
+ceilometer (0.1-0ubuntu1) quantal; urgency=low
+
+  * New upstream release.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Fri, 12 Oct 2012 09:34:05 -0500
+
+ceilometer (0~20121002-0ubuntu2) quantal; urgency=low
+
+  * Fix two typos in dependencies in debian/control (LP: #1063244)
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Sun, 07 Oct 2012 07:49:55 -0600
+
+ceilometer (0~20121002-0ubuntu1) quantal; urgency=low
+
+  * Initial release.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Wed, 03 Oct 2012 13:00:29 -0500

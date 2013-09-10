@@ -1,0 +1,6 @@
+tools/show_data.py usr/share/doc/ceilometer
+etc/ceilometer/ceilometer.conf etc/ceilometer
+etc/ceilometer/policy.json etc/ceilometer
+etc/ceilometer/sources.json etc/ceilometer
+etc/ceilometer/pipeline.yaml etc/ceilometer
+usr/bin/ceilometer-dbsync

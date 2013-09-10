@@ -1,0 +1,15 @@
+Description: Remove upper bound on requests
+Author: James Page <james.page@ubuntu.com>
+Forwarded: no
+
+--- a/tools/pip-requires
++++ b/tools/pip-requires
+@@ -15,7 +15,7 @@ python-novaclient>=2.6.10
+ python-keystoneclient>=0.2.3
+ python-swiftclient
+ lxml
+-requests>=1.1
++requests
+ extras
+ wsme>=0.5b1
+ pyyaml
