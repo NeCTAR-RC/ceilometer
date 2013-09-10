@@ -117,9 +117,13 @@ class Instance(object):
 
     @property
     def flavor(self):
+        name = 'UNKNOWN'
+        for metadata in self.system_metadata:
+            if metadata['key'] == 'instance_type_name':
+                name = metadata['value']
         return {
             'id': self.instance_type_id,
-            'name': self.instance_type.get('name', 'UNKNOWN'),
+            'name': name,
         }
 
     @property
