@@ -1,7 +1,5 @@
-Description: Remove upper bound on requests
-Author: James Page <james.page@ubuntu.com>
-Forwarded: no
-
+diff --git a/tools/pip-requires b/tools/pip-requires
+index 3743f12..c7b2205 100644
 --- a/tools/pip-requires
 +++ b/tools/pip-requires
 @@ -15,7 +15,7 @@ python-novaclient>=2.6.10
@@ -11,5 +9,5 @@ Forwarded: no
 -requests>=1.1
 +requests
  extras
+ six<1.4.0
  wsme>=0.5b1
- pyyaml
