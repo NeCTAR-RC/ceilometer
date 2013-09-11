@@ -40,6 +40,14 @@ OPTS = [
                 default=[],
                 help='list of listener plugins to disable',
                 ),
+    cfg.BoolOpt('forward_metering_data',
+                default=False,
+                help='Forward metering messages over RPC',
+                ),
+    cfg.BoolOpt('disable_local_storage',
+                default=False,
+                help='Don\'t store messages in local DB',
+                ),
 ]
 
 cfg.CONF.register_opts(OPTS)
@@ -55,8 +63,17 @@ class CollectorService(service.PeriodicService):
         super(CollectorService, self).start()
 
         storage.register_opts(cfg.CONF)
-        self.storage_engine = storage.get_engine(cfg.CONF)
-        self.storage_conn = self.storage_engine.get_connection(cfg.CONF)
+        self.proxy = None
+        self.storage_engine = None
+        self.storage_conn = None
+
+        if not cfg.CONF.disable_local_storage:
+            self.storage_engine = storage.get_engine(cfg.CONF)
+            self.storage_conn = self.storage_engine.get_connection(cfg.CONF)
+
+        if cfg.CONF.forward_metering_data:
+            from ceilometer.collector.dispatcher.rpc import RpcDispatcher
+            self.proxy = RpcDispatcher(cfg.CONF)
 
     def initialize_service_hook(self, service):
         '''Consumers must be declared before consume_thread start.'''
@@ -129,6 +146,12 @@ class CollectorService(service.PeriodicService):
         # We may have receive only one counter on the wire
         if not isinstance(data, list):
             data = [data]
+
+        if cfg.CONF.forward_metering_data:
+            self.proxy.record_metering_data(context, data)
+
+        if cfg.CONF.disable_local_storage:
+            return
 
         for meter in data:
             LOG.debug('metering data %s for %s @ %s: %s',
