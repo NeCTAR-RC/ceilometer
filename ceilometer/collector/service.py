@@ -115,7 +115,7 @@ class CollectorService(service.PeriodicService):
                 try:
                     self.conn.join_consumer_pool(
                         callback=self.process_notification,
-                        pool_name='ceilometer.notifications',
+                        pool_name=topic,
                         topic=topic,
                         exchange_name=exchange_topic.exchange,
                     )
