@@ -16,6 +16,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import Queue
 import urllib
 import urlparse
 
@@ -23,7 +24,6 @@ from oslo.config import cfg
 
 from ceilometer import dispatcher
 from ceilometer.openstack.common import log
-from ceilometer.openstack.common import timeutils
 from ceilometer.openstack.common.rpc import proxy as rpc_proxy
 from ceilometer.publisher import utils as publisher_utils
 
@@ -32,10 +32,14 @@ LOG = log.getLogger(__name__)
 
 
 dispatcher_rpc_opts = [
-        cfg.StrOpt('transport_url',
-                   default=None,
-                   help="URL of RPC server where metering messages will "
-                        "be dispatched.")]
+    cfg.StrOpt('transport_url',
+               default=None,
+               help="URL of RPC server where metering messages will "
+               "be dispatched."),
+    cfg.IntOpt('spool_size',
+               default=25,
+               help="Number of meters to spool before sending a message."),
+]
 
 CONF = cfg.CONF
 CONF.register_opts(dispatcher_rpc_opts, group='dispatcher_rpc')
@@ -45,13 +49,42 @@ class RpcDispatcherProxy(rpc_proxy.RpcProxy):
     def __init__(self, *args, **kwargs):
         super(RpcDispatcherProxy, self).__init__(*args, **kwargs)
         server_params = parse_transport_url(CONF.dispatcher_rpc.transport_url)
-        self.server_params = dict((k, v) for k, v in server_params.items() if v)
+        self.server_params = dict(
+            (k, v) for k, v in server_params.items() if v)
+        self.spool_size = CONF.dispatcher_rpc.spool_size
+        self.queue = Queue.Queue(self.spool_size * 10)
+        LOG.debug("Spool size: %s" % self.spool_size)
 
-    def send_message(self, context, target, message):
+    def send_meters(self, context, meters):
+        overflow = False
+        for meter in meters:
+            self._maybe_flush(context)
+            try:
+                self.queue.put_nowait(meter)
+            except Queue.Full:
+                overflow = True
+        if overflow:
+            LOG.warning('Failed to record metering data: '
+                        'RPC meter spool full.')
+
+    def _maybe_flush(self, context):
+        if self.queue.qsize() >= self.spool_size:
+            self._flush(context)
+
+    def _flush(self, context):
+        meters = []
+        while len(meters) < self.spool_size:
+            try:
+                meters.append(self.queue.get_nowait())
+            except Queue.Empty:
+                break
+
+        LOG.debug("Forwarding %s meters" % len(meters))
+
         msg = {
-            'method': target,
+            'method': 'record_metering_data',
             'version': '1.0',
-            'args': {'data': message},
+            'args': {'data': meters},
         }
         self.cast_to_server(context, self.server_params, msg)
 
@@ -98,8 +131,7 @@ class RpcDispatcher(dispatcher.Base):
                     meter)
         try:
             if meters_to_forward:
-                self.rpc_proxy.send_message(context, 'record_metering_data',
-                                            meters_to_forward)
+                self.rpc_proxy.send_meters(context, meters_to_forward)
         except Exception as err:
             LOG.error('Failed to record metering data: %s', err)
             LOG.exception(err)
