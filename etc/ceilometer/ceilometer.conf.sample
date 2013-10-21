@@ -715,6 +715,8 @@
 # The max number of the files to keep. (integer value)
 #backup_count=0
 
+[dispatcher_rpc]
+#transport_url=rabbit://guest:guest@localhost:5672/api
 
 [event]
 
@@ -901,7 +903,6 @@
 
 # Save event details. (boolean value)
 #store_events=false
-
 
 [publisher]
 
