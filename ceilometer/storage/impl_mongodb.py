@@ -23,6 +23,7 @@ import datetime
 import operator
 import re
 import urlparse
+import weakref
 
 import bson.code
 import pymongo
@@ -122,9 +123,35 @@ def make_query_from_filter(event_filter, require_meter=True):
     return q
 
 
+class ConnectionPool(object):
+
+    def __init__(self):
+        self._pool = {}
+
+    def connect(self, url):
+        connection_options = pymongo.uri_parser.parse_uri(url)
+        del connection_options['database']
+        del connection_options['username']
+        del connection_options['password']
+        del connection_options['collection']
+        pool_key = tuple(connection_options)
+
+        if pool_key in self._pool:
+            client = self._pool.get(pool_key)()
+            if client:
+                return client
+        LOG.info('connecting to MongoDB on %s', url)
+        client = pymongo.MongoClient(
+            url,
+            safe=True)
+        self._pool[pool_key] = weakref.ref(client)
+        return client
+
+
 class Connection(base.Connection):
     """MongoDB connection.
     """
+    CONNECTION_POOL = ConnectionPool()
 
     # JavaScript function for doing map-reduce to get a counter volume
     # total.
@@ -238,13 +265,30 @@ class Connection(base.Connection):
     }""")
 
     def __init__(self, conf):
-        opts = self._parse_connection_url(conf.database_connection)
-        LOG.info('connecting to MongoDB on %s:%s', opts['host'], opts['port'])
-        self.conn = self._get_connection(opts)
-        self.db = getattr(self.conn, opts['dbname'])
-        if 'username' in opts:
-            self.db.authenticate(opts['username'], opts['password'])
+        url = conf.database_connection
 
+        # NOTE(jd) Use our own connection pooling on top of the Pymongo one.
+        # We need that otherwise we overflow the MongoDB instance with new
+        # connection since we instanciate a Pymongo client each time someone
+        # requires a new storage connection.
+        self.conn = self.CONNECTION_POOL.connect(url)
+
+        # Require MongoDB 2.2 to use aggregate() and TTL
+        if self.conn.server_info()['versionArray'] < [2, 2]:
+            raise storage.StorageBadVersion("Need at least MongoDB 2.2")
+
+        connection_options = pymongo.uri_parser.parse_uri(url)
+        self.db = getattr(self.conn, connection_options['database'])
+        if connection_options.get('username'):
+            self.db.authenticate(connection_options['username'],
+                                 connection_options['password'])
+
+        # NOTE(jd) Upgrading is just about creating index, so let's do this
+        # on connection to be sure at least the TTL is correcly updated if
+        # needed.
+        self.upgrade()
+
+    def upgrade(self):
         # Establish indexes
         #
         # We need variations for user_id vs. project_id because of the
@@ -267,39 +311,10 @@ class Connection(base.Connection):
         self.db.meter.ensure_index([('timestamp', pymongo.DESCENDING)],
                                    name='timestamp_idx')
 
-    def upgrade(self, version=None):
-        pass
-
     def clear(self):
         self.conn.drop_database(self.db)
-
-    def _get_connection(self, opts):
-        """Return a connection to the database.
-
-        .. note::
-
-          The tests use a subclass to override this and return an
-          in-memory connection.
-        """
-        return pymongo.Connection(opts['host'], opts['port'], safe=True)
-
-    def _parse_connection_url(self, url):
-        opts = {}
-        result = urlparse.urlparse(url)
-        opts['dbtype'] = result.scheme
-        opts['dbname'] = result.path.replace('/', '')
-        netloc_match = re.match(r'(?:(\w+:\w+)@)?(.*)', result.netloc)
-        auth = netloc_match.group(1)
-        netloc = netloc_match.group(2)
-        if auth:
-            opts['username'], opts['password'] = auth.split(':')
-        if ':' in netloc:
-            opts['host'], port = netloc.split(':')
-        else:
-            opts['host'] = netloc
-            port = 27017
-        opts['port'] = port and int(port) or 27017
-        return opts
+        # Connection will be reopened automatically if needed
+        self.conn.close()
 
     def record_metering_data(self, data):
         """Write the data to the backend storage system.
