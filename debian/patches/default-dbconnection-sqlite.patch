@@ -1,0 +1,22 @@
+Index: ceilometer/etc/ceilometer/ceilometer.conf.sample
+===================================================================
+--- ceilometer.orig/etc/ceilometer/ceilometer.conf.sample	2013-09-06 15:48:23.491575697 -0700
++++ ceilometer/etc/ceilometer/ceilometer.conf.sample	2013-09-06 15:49:12.755575251 -0700
+@@ -111,7 +111,7 @@
+ #
+ 
+ # the filename to use with sqlite (string value)
+-#sqlite_db=ceilometer.sqlite
++sqlite_db=ceilometer.sqlite
+ 
+ # If true, use synchronous mode for sqlite (boolean value)
+ #sqlite_synchronous=true
+@@ -528,7 +528,7 @@
+ 
+ # The SQLAlchemy connection string used to connect to the
+ # database (string value)
+-#connection=sqlite:////ceilometer/openstack/common/db/$sqlite_db
++connection=sqlite:////var/lib/ceilometer/$sqlite_db
+ 
+ # The SQLAlchemy connection string used to connect to the
+ # slave database (string value)
