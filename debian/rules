@@ -3,6 +3,8 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+export OSLO_PACKAGE_VERSION=$(shell dpkg-parsechangelog | sed -n -e 's/^Version: //p')
+
 export HOME="$(CURDIR)/debian/test"
 
 %:
