@@ -13,7 +13,7 @@ if [ "$1" = "configure" ]; then
 	chmod 0750 /var/log/ceilometer
 	chown -R ceilometer:ceilometer /var/lib/ceilometer /etc/ceilometer
 
-	su -s /bin/sh -c '/usr/bin/ceilometer-dbsync' ceilometer
+	#su -s /bin/sh -c '/usr/bin/ceilometer-dbsync' ceilometer
 
 	if [ -e /var/lib/ceilometer/ceilometer.sqlite ]; then
 		chown ceilometer:ceilometer /var/lib/ceilometer/ceilometer.sqlite
