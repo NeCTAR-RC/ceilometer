@@ -27,7 +27,7 @@ class Base(object):
         self.conf = conf
 
     @abc.abstractmethod
-    def record_metering_data(self, data):
+    def record_metering_data(self, context, data):
         """Recording metering data interface."""
 
     @abc.abstractmethod

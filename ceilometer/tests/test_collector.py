@@ -85,6 +85,7 @@ class TestCollector(tests_base.BaseTestCase):
         self.srv.record_metering_data(None, self.counter)
 
         mock_dispatcher.record_metering_data.assert_called_once_with(
+            context=None,
             data=self.counter)
 
     def test_udp_receive(self):
@@ -103,6 +104,7 @@ class TestCollector(tests_base.BaseTestCase):
         self._verify_udp_socket(udp_socket)
 
         mock_dispatcher.record_metering_data.assert_called_once_with(
+            None,
             self.counter)
 
     def test_udp_receive_storage_error(self):
@@ -123,6 +125,7 @@ class TestCollector(tests_base.BaseTestCase):
         self._verify_udp_socket(udp_socket)
 
         mock_dispatcher.record_metering_data.assert_called_once_with(
+            None,
             self.counter)
 
     @staticmethod
