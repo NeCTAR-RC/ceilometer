@@ -1,0 +1,14 @@
+Description: Disabled pynsmp.
+Author: Chuck Short <zulcss@ubuntu.com>
+Forwarded: Not needed.
+diff -Naurp ceilometer-2014.1.rc2.orig/requirements.txt ceilometer-2014.1.rc2/requirements.txt
+--- ceilometer-2014.1.rc2.orig/requirements.txt	2014-04-08 15:15:38.000000000 -0400
++++ ceilometer-2014.1.rc2/requirements.txt	2014-04-08 15:35:42.657859030 -0400
+@@ -17,7 +17,6 @@ oslo.config>=1.2.0
+ oslo.vmware>=0.2                        # Apache-2.0
+ pbr>=0.6,<1.0
+ pecan>=0.4.5
+-pysnmp>=4.2.1,<5.0.0
+ python-ceilometerclient>=1.0.6
+ python-glanceclient>=0.9.0
+ python-keystoneclient>=0.7.0

@@ -1,0 +1,41 @@
+diff --git a/etc/ceilometer/ceilometer.conf.sample b/etc/ceilometer/ceilometer.conf.sample
+index 80964a7..7668dea 100644
+--- a/etc/ceilometer/ceilometer.conf.sample
++++ b/etc/ceilometer/ceilometer.conf.sample
+@@ -126,7 +126,7 @@
+ #
+ 
+ # The file name to use with SQLite (string value)
+-#sqlite_db=ceilometer.sqlite
++sqlite_db=ceilometer.sqlite
+ 
+ # If True, SQLite uses synchronous mode (boolean value)
+ #sqlite_synchronous=true
+@@ -148,7 +148,7 @@
+ 
+ 
+ #
+-# Options defined in ceilometer.openstack.common.lockutils
++#Options defined in ceilometer.openstack.common.lockutils
+ #
+ 
+ # Whether to disable inter-process locks. (boolean value)
+@@ -598,7 +598,7 @@
+ 
+ # The backend to use for db (string value)
+ # Deprecated group/name - [DEFAULT]/db_backend
+-#backend=sqlalchemy
++backend=sqlalchemy
+ 
+ 
+ #
+@@ -610,7 +610,8 @@
+ # Deprecated group/name - [DEFAULT]/sql_connection
+ # Deprecated group/name - [DATABASE]/sql_connection
+ # Deprecated group/name - [sql]/connection
+-#connection=sqlite:////ceilometer/openstack/common/db/$sqlite_db
++connection=sqlite:////var/lib/ceilometer/$sqlite_db
++
+ 
+ # The SQLAlchemy connection string used to connect to the
+ # slave database (string value)

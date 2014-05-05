@@ -1,0 +1,29 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export HOME="$(CURDIR)/debian/test"
+
+%:
+	dh $@  --with python2
+
+get-orig-source:
+	uscan --verbose --force-download --rename --destdir=../build-area
+
+ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
+override_dh_auto_test:
+	patch -p1 -R < debian/patches/default-dbconnection-sqlite.patch
+	testr init && PYTHONPATH="$(CURDIR)" testr run || true
+	patch -p1 < debian/patches/default-dbconnection-sqlite.patch
+endif
+
+override_dh_install:
+	cp etc/ceilometer/ceilometer.conf.sample etc/ceilometer/ceilometer.conf
+	dh_install --fail-missing
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -f etc/ceilometer/ceilometer.conf
+	rm -rf .testrepository
+	rm -rf pbr*.egg

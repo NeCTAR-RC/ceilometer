@@ -1,0 +1,15 @@
+#!/bin/bash
+#---------------------------
+# Testing ceilometer-daemons
+#---------------------------
+set -e
+DAEMONS=('ceilometer-collector' 'ceilometer-api' 'ceilometer-agent-compute' 'ceilometer-agent-central', 'ceilometer-agent-notification')
+
+for daemon in "${DAEMONS[@]}"; do
+    if pidof -x $daemon > /dev/null; then
+        echo "OK"
+    else
+        echo "ERROR: ${daemon} IS NOT RUNNING"
+        exit 1
+    fi
+done
