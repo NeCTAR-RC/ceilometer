@@ -1,0 +1,20 @@
+--- etc/ceilometer/ceilometer.conf.sample	2014-10-09 17:27:51.497651569 +0100
++++ etc/ceilometer/ceilometer.conf.sample.ubuntu	2014-10-09 17:27:31.565650862 +0100
+@@ -472,6 +472,7 @@
+ # paths. (string value)
+ # Deprecated group/name - [DEFAULT]/logdir
+ #log_dir=<None>
++log_dir=/var/log/ceilometer
+ 
+ # Use syslog for logging. Existing syslog format is DEPRECATED
+ # during I, and will change in J to honor RFC5424. (boolean
+@@ -714,6 +715,9 @@
+ # (if unset, connection is used) (string value)
+ #alarm_connection=<None>
+ 
++# Provide backwards compatible default for both alarm and metering
++connection=sqlite:////var/lib/ceilometer/ceilometer.sqlite
++
+ 
+ [dispatcher_file]
+ 
