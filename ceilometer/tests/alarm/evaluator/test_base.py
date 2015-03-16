@@ -74,52 +74,6 @@ class TestEvaluatorBaseClass(base.BaseTestCase):
         self.assertFalse(cls.within_time_constraint(alarm))
 
     @mock.patch.object(timeutils, 'utcnow')
-    def test_base_time_constraints_complex(self, mock_utcnow):
-        alarm = mock.MagicMock()
-        alarm.time_constraints = [
-            {'name': 'test',
-             'description': 'test',
-             # Every consecutive 2 minutes (from the 3rd to the 57th) past
-             # every consecutive 2 hours (between 3:00 and 12:59) on every day.
-             'start': '3-57/2 3-12/2 * * *',
-             'duration': 30,
-             'timezone': ''}
-        ]
-        cls = evaluator.Evaluator
-
-        # test minutes inside
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 3, 3, 0)
-        self.assertTrue(cls.within_time_constraint(alarm))
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 3, 31, 0)
-        self.assertTrue(cls.within_time_constraint(alarm))
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 3, 57, 0)
-        self.assertTrue(cls.within_time_constraint(alarm))
-
-        # test minutes outside
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 3, 2, 0)
-        self.assertFalse(cls.within_time_constraint(alarm))
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 3, 4, 0)
-        self.assertFalse(cls.within_time_constraint(alarm))
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 3, 58, 0)
-        self.assertFalse(cls.within_time_constraint(alarm))
-
-        # test hours inside
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 3, 31, 0)
-        self.assertTrue(cls.within_time_constraint(alarm))
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 5, 31, 0)
-        self.assertTrue(cls.within_time_constraint(alarm))
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 11, 31, 0)
-        self.assertTrue(cls.within_time_constraint(alarm))
-
-        # test hours outside
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 1, 31, 0)
-        self.assertFalse(cls.within_time_constraint(alarm))
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 4, 31, 0)
-        self.assertFalse(cls.within_time_constraint(alarm))
-        mock_utcnow.return_value = datetime.datetime(2014, 1, 5, 12, 31, 0)
-        self.assertFalse(cls.within_time_constraint(alarm))
-
-    @mock.patch.object(timeutils, 'utcnow')
     def test_base_time_constraints_timezone(self, mock_utcnow):
         alarm = mock.MagicMock()
         cls = evaluator.Evaluator
