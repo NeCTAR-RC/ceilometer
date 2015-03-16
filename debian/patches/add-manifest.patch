@@ -1,0 +1,50 @@
+commit ea18e35445618b7aa253a017c8677953c9133b40
+Author: Sam Morrison <sorrison@gmail.com>
+Date:   Mon Mar 16 12:45:57 2015 +1100
+
+    Added manifest.in
+    
+    Change-Id: I13ca041a8bdfb72035f8deb461c8a9a324043586
+
+diff --git a/MANIFEST.in b/MANIFEST.in
+new file mode 100644
+index 0000000..1aef82d
+--- /dev/null
++++ b/MANIFEST.in
+@@ -0,0 +1,36 @@
++include ceilometer/storage/sqlalchemy/migrate_repo/README
++include ceilometer/storage/sqlalchemy/migrate_repo/migrate.cfg
++include ceilometer/storage/sqlalchemy/migrate_repo/versions/021_sqlite_upgrade.sql
++include ceilometer/storage/sqlalchemy/migrate_repo/versions/023_sqlite_downgrade.sql
++include ceilometer/storage/sqlalchemy/migrate_repo/versions/023_sqlite_upgrade.sql
++include ceilometer/storage/sqlalchemy/migrate_repo/versions/021_sqlite_downgrade.sql
++include ceilometer/locale/ceilometer-log-error.pot
++include ceilometer/locale/ceilometer-log-info.pot
++include ceilometer/locale/ceilometer-log-critical.pot
++include ceilometer/locale/ceilometer-log-warning.pot
++include ceilometer/locale/ceilometer.pot
++include ceilometer/locale/en_AU/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/en_AU/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/zh_CN/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/zh_CN/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/it/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/pt_BR/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/pt_BR/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/ko_KR/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/vi_VN/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/vi_VN/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/es/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/es/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/te_IN/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/en_GB/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/en_GB/LC_MESSAGES/ceilometer.po
++include ceilometer/locale/en_GB/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/en_GB/LC_MESSAGES/ceilometer-log-warning.po
++include ceilometer/locale/fr/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/fr/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/fr/LC_MESSAGES/ceilometer-log-warning.po
++include ceilometer/locale/ja/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/de/LC_MESSAGES/ceilometer-log-info.po
++include ceilometer/locale/de/LC_MESSAGES/ceilometer-log-error.po
++include ceilometer/locale/de/LC_MESSAGES/ceilometer-log-warning.po
++include ceilometer/api/app.wsgi
