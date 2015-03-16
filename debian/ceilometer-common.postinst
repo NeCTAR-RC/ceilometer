@@ -13,11 +13,6 @@ if [ "$1" = "configure" ]; then
     chmod 0750 /var/log/ceilometer
     chown -R ceilometer:ceilometer /var/lib/ceilometer /etc/ceilometer
 
-    if grep -qE "^(sql_)?connection.*sqlite.*" /etc/ceilometer/ceilometer.conf
-    then
-        su -s /bin/sh -c '/usr/bin/ceilometer-dbsync' ceilometer
-    fi
-
     if [ -e /var/lib/ceilometer/ceilometer.sqlite ]; then
         chown ceilometer:ceilometer /var/lib/ceilometer/ceilometer.sqlite
         chmod 0600 /var/lib/ceilometer/ceilometer.sqlite
