@@ -1,0 +1,5 @@
+skip-db-tests.patch
+skip-test.patch
+skip-gabbi.patch
+disable-kafka.patch
+skip-rgw-tests.patch

@@ -1,0 +1,39 @@
+From d008622c43dc902e1bb73ea5ff08beb8ec48f7d9 Mon Sep 17 00:00:00 2001
+From: Chuck Short <chuck.short@canonical.com>
+Date: Fri, 21 Nov 2014 11:30:23 -0600
+Subject: [PATCH] skip-db
+
+Signed-off-by: Chuck Short <chuck.short@canonical.com>
+---
+ ceilometer/tests/db.py | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/ceilometer/tests/db.py b/ceilometer/tests/db.py
+index f29d4fe..8c09115 100644
+--- a/ceilometer/tests/db.py
++++ b/ceilometer/tests/db.py
+@@ -268,13 +268,13 @@ class MixinTestsWithBackendScenarios(object):
+     scenarios_db = [db for db, _ in scenarios]
+ 
+     # Insert default value for hbase test
+-    if 'hbase' not in scenarios_db:
+-        scenarios.append(
+-            ('hbase', {'db_url': 'hbase://__test__'}))
++    #if 'hbase' not in scenarios_db:
++    #    scenarios.append(
++    #        ('hbase', {'db_url': 'hbase://__test__'}))
+ 
+     # Insert default value for db2 test
+-    if 'mongodb' in scenarios_db and 'db2' not in scenarios_db:
+-        scenarios.append(
+-            ('db2', {'db_url': os.environ.get('CEILOMETER_TEST_MONGODB_URL',
+-                                              '').replace('mongodb://',
+-                                                          'db2://')}))
++    #if 'mongodb' in scenarios_db and 'db2' not in scenarios_db:
++    #    scenarios.append(
++    #        ('db2', {'db_url': os.environ.get('CEILOMETER_TEST_MONGODB_URL',
++     #                                         '').replace('mongodb://',
++     #                                                     'db2://')}))
+-- 
+2.1.0
+

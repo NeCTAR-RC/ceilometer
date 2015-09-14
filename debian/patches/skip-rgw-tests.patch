@@ -1,0 +1,61 @@
+Description: Fix testing import errors when python-awsauth, a suggested
+             package, is not available.
+Author: David Ames <david.ames@canonical.com>
+Forwarded: no
+
+--- a/ceilometer/tests/objectstore/test_rgw.py
++++ b/ceilometer/tests/objectstore/test_rgw.py
+@@ -21,10 +21,15 @@
+ from oslotest import base
+ from oslotest import mockpatch
+ import testscenarios.testcase
++import testtools
+ 
+ from ceilometer.agent import manager
+-from ceilometer.objectstore import rgw
+-from ceilometer.objectstore.rgw_client import RGWAdminClient as rgw_client
++try:
++    from ceilometer.objectstore import rgw
++    from ceilometer.objectstore.rgw_client import RGWAdminClient as rgw_client
++except ImportError:
++    rgw = mock.MagicMock()
++    rgw_client = mock.MagicMock()
+ 
+ bucket_list1 = [rgw_client.Bucket('somefoo1', 10, 7)]
+ bucket_list2 = [rgw_client.Bucket('somefoo2', 2, 9)]
+@@ -53,6 +58,7 @@
+         self.keystone = mock.MagicMock()
+ 
+ 
++@testtools.skipIf(isinstance(rgw, mock.MagicMock), "rgw not avaliable, skipping")
+ class TestRgwPollster(testscenarios.testcase.WithScenarios,
+                       base.BaseTestCase):
+ 
+--- a/ceilometer/tests/objectstore/test_rgw_client.py
++++ b/ceilometer/tests/objectstore/test_rgw_client.py
+@@ -18,9 +18,14 @@
+ 
+ import mock
+ from oslotest import base
++import testtools
+ 
+-from ceilometer.objectstore.rgw_client import RGWAdminAPIFailed
+-from ceilometer.objectstore.rgw_client import RGWAdminClient
++try:
++    from ceilometer.objectstore.rgw_client import RGWAdminAPIFailed
++    from ceilometer.objectstore.rgw_client import RGWAdminClient
++except ImportError:
++    RGWAdminAPIFailed = mock.MagicMock()
++    RGWAdminClient = mock.MagicMock()
+ 
+ 
+ RGW_ADMIN_BUCKETS = '''
+@@ -152,6 +157,8 @@
+ 
+ class TestRGWAdminClient(base.BaseTestCase):
+ 
++    @testtools.skipIf(isinstance(RGWAdminClient, mock.MagicMock),
++                      "rgw_client not avaliable, skipping")
+     def setUp(self):
+         super(TestRGWAdminClient, self).setUp()
+         self.client = RGWAdminClient('http://127.0.0.1:8080/admin',
