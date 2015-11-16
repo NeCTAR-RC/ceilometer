@@ -1,0 +1,11 @@
+etc/ceilometer/api_paste.ini etc/ceilometer
+etc/ceilometer/ceilometer.conf etc/ceilometer
+etc/ceilometer/pipeline.yaml etc/ceilometer
+etc/ceilometer/policy.json etc/ceilometer
+etc/ceilometer/rootwrap.conf etc/ceilometer
+tools/show_data.py usr/share/doc/ceilometer
+usr/bin/ceilometer-dbsync
+usr/bin/ceilometer-expirer
+usr/bin/ceilometer-polling
+usr/bin/ceilometer-rootwrap
+usr/bin/ceilometer-send-sample

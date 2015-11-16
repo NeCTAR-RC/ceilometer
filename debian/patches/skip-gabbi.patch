@@ -1,0 +1,19 @@
+--- a/ceilometer/tests/functional/gabbi/test_gabbi.py
++++ b/ceilometer/tests/functional/gabbi/test_gabbi.py
+@@ -20,10 +20,14 @@
+ 
+ import os
+ 
+-from gabbi import driver
++try:
++    from gabbi import driver
++except ImportError:
++    driver = None
+ 
+ from ceilometer.api import app
+-from ceilometer.tests.functional.gabbi import fixtures as fixture_module
++if driver:
++    from ceilometer.tests.functional.gabbi import fixtures as fixture_module
+ 
+ TESTS_DIR = 'gabbits'
+ 
