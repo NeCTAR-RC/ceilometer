@@ -3,3 +3,4 @@ skip-test.patch
 skip-gabbi.patch
 disable-kafka.patch
 pbr-disable-version.patch
+fix-manifest.patch
