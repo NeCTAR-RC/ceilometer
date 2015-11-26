@@ -17,11 +17,9 @@
 # under the License.
 
 import Queue
-import urllib
-import urlparse
 
-from oslo.config import cfg
-from oslo.messaging import rpc
+from oslo_config import cfg
+
 from ceilometer import dispatcher
 from ceilometer import messaging
 from ceilometer.openstack.common import context
@@ -48,7 +46,8 @@ CONF.register_opts(dispatcher_rpc_opts, group='dispatcher_rpc')
 
 class RpcDispatcherProxy(object):
     def __init__(self, topic, version):
-        transport = messaging.get_transport(url=CONF.dispatcher_rpc.transport_url)
+        transport = messaging.get_transport(
+            url=CONF.dispatcher_rpc.transport_url)
         self.spool_size = CONF.dispatcher_rpc.spool_size
         self.queue = Queue.Queue(self.spool_size * 10)
 
@@ -118,7 +117,7 @@ class RpcDispatcher(dispatcher.Base):
                       meter['counter_volume'])
             if publisher_utils.verify_signature(
                     meter,
-                    self.conf.publisher.metering_secret):
+                    self.conf.publisher.telemetry_secret):
                 meters_to_forward.append(meter)
             else:
                 LOG.warning(
