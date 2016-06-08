@@ -20,10 +20,10 @@ import Queue
 
 from oslo_config import cfg
 from oslo_context import context
+from oslo_log import log
 
 from ceilometer import dispatcher
 from ceilometer import messaging
-from ceilometer.openstack.common import log
 from ceilometer.publisher import utils as publisher_utils
 
 
