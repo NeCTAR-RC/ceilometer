@@ -1,0 +1,17 @@
+Description: Always use full path due to different pkg_resources in virtualenvs
+Author: James Page <james.page@ubuntu.com>
+
+--- a/ceilometer/tests/unit/meter/test_notifications.py
++++ b/ceilometer/tests/unit/meter/test_notifications.py
+@@ -273,10 +273,7 @@
+                         mock.mock_open(read_data='---\nmetric: []'),
+                         create=True) as mock_open:
+             self.handler._load_definitions()
+-            if six.PY3:
+-                path = os.path.dirname(ceilometer.__file__)
+-            else:
+-                path = "ceilometer"
++            path = os.path.dirname(ceilometer.__file__)
+             mock_open.assert_called_with(path + "/meter/data/meters.yaml")
+ 
+     def _load_meter_def_file(self, cfg):

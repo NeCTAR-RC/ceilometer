@@ -1,0 +1,764 @@
+ceilometer (1:6.1.3-0ubuntu1) xenial; urgency=medium
+
+  * New upstream point release for OpenStack Mitaka (LP: #1604007).
+  * d/p/fix-fallback-meter-path.patch: Rebased.
+  * d/control: Align (build-)depends with upstream.
+
+ -- David Della Vecchia <ddv@canonical.com>  Thu, 21 Jul 2016 11:34:17 -0400
+
+ceilometer (1:6.1.1-0ubuntu1) xenial; urgency=medium
+
+  * New upstream point release for OpenStack Mitaka (LP: #1601854).
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Mon, 11 Jul 2016 10:06:08 -0400
+
+ceilometer (1:6.0.0-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release for OpenStack Mitaka.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Thu, 07 Apr 2016 17:06:22 -0400
+
+ceilometer (1:6.0.0~rc1-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release candidate for OpenStack Mitaka.
+  * d/control: Align (Build-)Depends with upstream.
+  * d/rules: Use OS_TEST_PATH to specify unit test path.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Wed, 23 Mar 2016 21:28:43 -0400
+
+ceilometer (1:6.0.0~b3-0ubuntu1) xenial; urgency=medium
+
+  * New upstream milestone for OpenStack Mitaka.
+  * d/control: Align (Build-)Depends with upstream.
+  * d/p/*: Patches rebased.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Mon, 07 Mar 2016 09:42:19 -0500
+
+ceilometer (1:6.0.0~b2-0ubuntu3) xenial; urgency=medium
+
+  * d/p/fix-fallback-meter-path.patch: Always use full path when testing
+    for read of fallback meters file, resolving unit test failure.
+
+ -- James Page <james.page@ubuntu.com>  Fri, 04 Mar 2016 11:18:15 +0000
+
+ceilometer (1:6.0.0~b2-0ubuntu2) xenial; urgency=medium
+
+  * d/control: Drop python-gnocchiclient from BDs and move Depends to Suggests.
+  * d/p/skip-gnocchiclient-tests.patch: Skip python-gnocchiclient tests as it
+    and gnocchi are not supported in main.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Wed, 10 Feb 2016 09:02:27 -0500
+
+ceilometer (1:6.0.0~b2-0ubuntu1) xenial; urgency=medium
+
+  * New upstream milestone for OpenStack Mitaka.
+  * d/control: Align dependencies with upstream.
+  * d/p/skip-gabbi.patch: Rebased patch to handle test changes.
+  * d/p/disable-kafka.patch: Rebased patch to handle requirement updates.
+
+ -- David Della Vecchia <ddv@canonical.com>  Sun, 24 Jan 2016 16:13:27 -0500
+
+ceilometer (1:6.0.0~b1-0ubuntu1) xenial; urgency=medium
+
+  [ Corey Bryant ]
+  * New upstream milestone for OpenStack Mitaka:
+    - d/control: Align dependencies with upstream.
+    - d/p/skip-db-tests.patch: Dropped, no longer needed.
+    - d/p/disable-kafka.patch: Rebase.
+    - d/p/skip-gabbi.patch: Updated to handle more gabbi imports.
+    - d/rules: Use oslo-config-generator to generate config file.
+
+  [ David Della Vecchia ]
+  * Upstream moved ceilometer-alarm-evaluator/notifier out of branch to aodh project:
+    - d/control: Removed ceilometer-alarm-evaluator/notifier package.
+    - d/t/control: Removed ceilometer-alarm-evaluator/notifier from test list.
+    - d/t/test-daemons: Removed ceilometer-alarm-evaluator/notifier from daemon list.
+    - d/t/test-services: Removed ceilometer-alarm-evaluator/notifier from services list.
+    - d/ceilometer-alarm-evaluator.init.in: Removed file.
+    - d/ceilometer-alarm-evaluator.install: Removed file.
+    - d/ceilometer-alarm-notifier.init.in: Removed file.
+    - d/ceilometer-alarm-notifier.install: Removed file.
+
+ -- David Della Vecchia <ddv@canonical.com>  Fri, 18 Dec 2015 08:25:39 -0500
+
+ceilometer (1:5.0.0-0ubuntu1) wily; urgency=medium
+
+  * New upstream release for OpenStack Liberty.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Thu, 15 Oct 2015 12:33:10 -0400
+
+ceilometer (1:5.0.0~rc2-0ubuntu1) wily; urgency=medium
+
+  * New upstream release candidate for OpenStack Liberty.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Tue, 06 Oct 2015 11:09:35 -0400
+
+ceilometer (1:5.0.0~rc1-0ubuntu3) wily; urgency=medium
+
+  [ James Page ]
+  * d/rules: Only execute unit tests during package build.
+  * d/rules: Use upstream wrapper script to generate configuration file.
+
+  [ Corey Bryant ]
+  * d/tests/control: Add ceilometer-alarm-evaluator and
+    ceilometer-alarm-notifier to depends.
+  * d/tests/test-services: Added to test that systemd services are running.
+  * d/tests/test-daemons: Dropped ceilometer-agent-{central,compute,ipmi}
+    since they're replaced by ceilometer-polling.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Thu, 01 Oct 2015 08:52:03 -0400
+
+ceilometer (1:5.0.0~rc1-0ubuntu2) wily; urgency=medium
+
+  [ Corey Bryant ]
+  * d/ceilometer-agent-{central,compute,ipmi}.init.in: Restored and updated
+    to use ceilometer-polling service instead of deprecated agent services.
+  * d/tests/control: Add ceilometer-polling to depends.
+  * d/tests/control: Add ceilometer-agent-{central,compute,ipmi} to depends.
+  * d/tests/test-daemons: Add ceilometer-agent-{central,compute,ipmi} daemons.
+  * d/control: Restore ceilometer-agent-{central,compute,ipmi} packages.
+
+  [ James Page ]
+  * d/ceilometer-agent-{central,compute,ipmi}.init.in: Update to use correct
+    argument name 'polling-namespaces'.
+  * d/control,ceilometer-common.install,ceilometer-polling.install: Move
+    ceilometer-polling to common package for use across multiple daemon
+    processes.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Wed, 30 Sep 2015 09:48:29 -0400
+
+ceilometer (1:5.0.0~rc1-0ubuntu1) wily; urgency=medium
+
+  [ James Page ]
+  * d/control: Fixup typo for ceilometer-agent-central package
+    (LP: #1256279).
+
+  [ Corey Bryant ]
+  * d/watch: Update to cope with upstream rc versioning.
+  * New upstream release candidate for OpenStack Liberty.
+  * d/rules: Drop removal of .eggs directory in override_dh_auto_clean.
+  * d/control: Bump minimum pbr version to 1.8.
+  * d/control: Align (build-)depends with upstream.
+  * Drop deprecated agents (central, compute and ipmi) in favor of
+    ceilometer-polling tool:
+    - d/ceilometer-agent-*.install: Dropped for above mentioned.
+    - d/ceilometer-agent-*.init.in: Dropped for above mentioned.
+    - d/control: Drop ceilometer-agent-* for above mentioned.
+    - d/tests: Drop dependencies on ceilometer-agent-* for above mentioned.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Fri, 25 Sep 2015 17:02:38 -0400
+
+ceilometer (1:5.0.0~b3-0ubuntu1) wily; urgency=medium
+
+  * New upstream milestone for OpenStack Liberty.
+  * d/control: Align (build-)depends with upstream.
+  * d/p/skip-test.patch: Rebased.
+  * d/p/skip-gabbi.patch: Rebased.
+  * d/p/disable-kafka.patch: Updated for removal of setUp() method.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Tue, 08 Sep 2015 15:48:26 -0400
+
+ceilometer (1:5.0.0~b2-0ubuntu2) wily; urgency=medium
+
+  * d/p/disable-kafka.patch: Updated.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Thu, 27 Aug 2015 08:35:54 -0400
+
+ceilometer (1:5.0.0~b2-0ubuntu1) wily; urgency=medium
+
+  * New upstream milestone for OpenStack Liberty.
+  * d/control: Align (build-)depends with upstream.
+  * d/p/disable-contextlib2.patch: Dropped. Added python-contextlib2 to BD's.
+  * d/p/disable-kafka.patch: Rebased.
+  * d/rules: Remove .eggs directory in override_dh_auto_clean.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Mon, 17 Aug 2015 11:28:21 -0400
+
+ceilometer (1:5.0.0~b1-0ubuntu3) wily; urgency=medium
+
+  * No change rebuild with SQLAlchemy 1.0.6.
+
+ -- James Page <james.page@ubuntu.com>  Fri, 24 Jul 2015 09:25:54 +0100
+
+ceilometer (1:5.0.0~b1-0ubuntu2) wily; urgency=medium
+
+  * d/control: Drop python-pymysql and python-sphinxcontrib* BD's.
+  * d/control: Drop unsupported dependencies (contextlib2, kafka):
+    - d/p/disable-kafka.patch: Rebased and updated.
+    - d/p/disable-contextlib2.patch: Disable contextlib2 based tests.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Thu, 09 Jul 2015 10:11:56 +0100
+
+ceilometer (1:5.0.0~b1-0ubuntu1) wily; urgency=medium
+
+  [ Corey Bryant ]
+  * New upstream milestone for OpenStack Liberty:
+    - d/control: Align (build-)depends with upstream.
+    - d/p/disable-kafka.patch: Rebased.
+
+  [ James Page ]
+  * Tidy duplicate licenses in copyright file.
+  * Drop postrm scripts, removing duplicate calls to update-rc.d.
+  * Tweak description of 'ceilometer-alarm-evaluator' package.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Fri, 03 Jul 2015 15:00:27 +0100
+
+ceilometer (2015.1.0-0ubuntu1) vivid; urgency=medium
+
+  [ Corey Bryant ]
+  * New upstream release for OpenStack kilo (LP: #1449744):
+    - d/p/disable-kafka.patch: Rebased.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Sun, 03 May 2015 13:38:43 -0400
+
+ceilometer (2015.1~rc1-0ubuntu1) vivid; urgency=medium
+
+  * New upstream milestone release:
+    - d/control: Align with upstream dependencies.
+    - d/p/disable-kafka.patch: Refreshed.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Wed, 15 Apr 2015 13:51:39 -0400
+
+ceilometer (2015.1~b3-0ubuntu1) vivid; urgency=medium
+
+  [ James Page ]
+  * d/pydist-overrides: Add overrides for oslo packages.
+  * d/p/disable-kafka.patch: Disable requirement for Apache Kafka for Ubuntu
+    Vivid release.
+  * d/control: Fixup minor typos in package descriptions (LP: #1256279).
+
+  [ Corey Bryant ]
+  * New upstream milestone release for OpenStack kilo:
+    - d/control: Align with upstream dependencies.
+    - d/p/skip-test.patch: Rebased.
+
+ -- James Page <james.page@ubuntu.com>  Mon, 30 Mar 2015 11:06:18 +0100
+
+ceilometer (2015.1~b2-0ubuntu1) vivid; urgency=medium
+
+  [ Corey Bryant ]
+  * New upstream release.
+    - d/control: Align requirements with upstream.
+    - d/p/skip-test.patch: Rebased.
+
+  [ James Page ]
+  * d/rules,d/p/skip-gabbi.patch: Skip tests that rely on python-gabbi until
+    packaging and MIR is complete.
+
+ -- James Page <james.page@ubuntu.com>  Thu, 19 Feb 2015 14:59:07 +0000
+
+ceilometer (2015.1~b1-0ubuntu6) vivid; urgency=medium
+
+  * debian/patches/skip-tests.patch: Skip failing timeutils tests. 
+
+ -- Chuck Short <zulcss@ubuntu.com>  Mon, 09 Feb 2015 10:26:30 -0500
+
+ceilometer (2015.1~b1-0ubuntu5) vivid; urgency=medium
+
+  * debian/tests/test-daemons: Fix dep-8 tests to actually run. 
+
+ -- Chuck Short <zulcss@ubuntu.com>  Mon, 09 Feb 2015 09:42:44 -0500
+
+ceilometer (2015.1~b1-0ubuntu4) vivid; urgency=medium
+
+  * Rebuild to pick up pkgos upstart generation fix.
+    - d/control: Bump openstack-pkg-tools to ensure upstart fix inclusion.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Wed, 14 Jan 2015 10:29:17 -0500
+
+ceilometer (2015.1~b1-0ubuntu3) vivid; urgency=medium
+
+  * Systemd enablement:
+    - d/*.service: Dropped in favor of template approach.
+    - d/control: Add dh-systemd and openstack-pkg-tools to BD's.
+    - d/rules: Enable use of pkgos, tidyup generated init files.
+    - d/*.init.in: Cherry pick and adapt pkgos template configurations from
+      Debian ceilometer package (thanks Thomas).
+    - d/*.upstart: Drop in preference to generated files.
+  * d/control,compat: Bump debhelper compat level to 9.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Thu, 08 Jan 2015 14:19:46 -0500
+
+ceilometer (2015.1~b1-0ubuntu2) vivid; urgency=medium
+
+  * Systemd integration:
+    - add the 6 systemd debian/*.service corresponding to the upstart jobs
+    - debian/control: add dh-systemd build-dep
+    - debian/rules: enables systemd helper
+  * debian/control:
+    - fix Vcs-Bzr to point to kilo
+
+ -- Didier Roche <didrocks@ubuntu.com>  Fri, 09 Jan 2015 13:22:50 +0100
+
+ceilometer (2015.1~b1-0ubuntu1) vivid; urgency=medium
+
+  [ Chuck Short ]
+  * Open up for vivid.
+  * debian/control: Update bzr branch.
+  * debian/control: Add python-oslo.conccurency, python-retrying, and
+    python-oslo.midddleware as a build dependency.
+  * debian/patches/fix-requirements.patch: Dropped no longer needed.
+  * debian/patches/skip-db-tests.patch: Refreshed
+  * debian/rules: Use oslo-config-generator to generate configuration
+    files.
+  * debian/control, debian/ceilometer-polling.upstart,
+    debian/ceilometer-polling.install, debian/ceilometer-polling.postrm:
+    Add polling service.
+
+  [ Corey Bryant ]
+  * New upstream release.
+    - d/control: Align requirements with upstream.
+    - d/watch: Update uversionmangle for kilo beta naming.
+  * d/control: Bumped Standards-Version to 3.9.6.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Fri, 19 Dec 2014 07:54:44 -0500
+
+ceilometer (2014.2-0ubuntu1) utopic; urgency=medium
+
+  * New upstream release. 
+
+ -- Chuck Short <zulcss@ubuntu.com>  Thu, 16 Oct 2014 14:30:18 -0400
+
+ceilometer (2014.2~rc3-0ubuntu1) utopic; urgency=medium
+
+  [ Corey Bryant ]
+  * New upstream release candidate.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Tue, 14 Oct 2014 12:57:54 -0400
+
+ceilometer (2014.2~rc2-0ubuntu1) utopic; urgency=medium
+
+  [ Corey Bryant ]
+  * New upstream release candidate (LP: #1377218):
+    - d/watch: Use tarballs.openstack.org, limit scope to versions
+      starting with numbers.
+    - d/control: Align version requirements with rc1.
+    - d/ceilometer-agent-ipmi.*: Add support for IPMI agent.
+    - d/ceilometer-common.install: Add support for ceilometer-rootwrap.
+    - d/ceilometer-agent-notification.postrm: Add missing postrm file.
+    - d/ceilometer-agent-central.upstart: Fix description.
+    - d/ceilometer-collector.upstart: Fix description.
+    - d/ceilometer-api.upstart: Fix description.
+    - d/tests/control: Add ceilometer-agent-ipmi to test.
+    - d/tests/test-daemons: Add ceilometer-agent-ipmi to test.
+    - d/ceilometer.conf.sample: Removed. Use generated config file.
+    - d/rules: Copy sample config file from etc/ rather than debian/.
+    - d/p/series: Add missing patches.
+    - d/p/skip-ubuntu-tests.patch: Rebased.
+    - d/p/fix-requirements.patch: Drop ordereddict and discover.
+    - d/p/fix-requirements.patch: Align with Ubuntu.
+    - d/rules: Generate sample ceilometer.conf and patch with log and
+      db connection defaults before before copying.
+    - d/p/default-*.patch: Dropped as unable to patch config file
+      pre-generation.
+
+  [ James Page ]
+  * d/p/skip-ubuntu-tests.patch,skip-db-tests.patch: Rework unit test
+    patches to skip db2 and mongodb tests as not in Ubuntu main.
+  * d/control: Fixup accross->across typo.
+  * d/ceilometer-agent-ipmi.install: Install rootwrap filters for
+    ipmitool usage.
+  * d/control: Add dependency on ipmitool for ceilometer-agent-ipmi.
+  * d/ceilometer-common.logrotate: Add single common logrotate configuration,
+    inline with Debian (thanks Thomas) (LP: #1373617).
+
+ -- James Page <james.page@ubuntu.com>  Thu, 09 Oct 2014 17:48:38 +0100
+
+ceilometer (2014.2~b3-0ubuntu2) utopic; urgency=medium
+
+  * d/control: Tidy version requirements to align to b3, wrap-and-sort.
+  * d/control: Bump Standards-Version: 3.9.5, no changes.
+  * d/tests/*: Rename DEP-8 tests to comply with naming standards.
+  * d/*: wrap-and-sort.
+
+ -- James Page <james.page@ubuntu.com>  Thu, 18 Sep 2014 11:35:49 +0100
+
+ceilometer (2014.2~b3-0ubuntu1) utopic; urgency=medium
+
+  [ Chuck Short ]
+  * New upstream release.
+  * debian/control:
+    - Dropped python-swift, python-nova, python-flask, python-msqldb, 
+      python-simplejson, and python-kombu
+    - Added python-oslotest, python-oslo.utils, python-oslo.nessaging,
+      python-keystonemiddleware, python-tz, python-neutronclient, 
+      python-posix-ipc, python-oslo.db, and python-hacking
+    - Bumped dependens on python-alembic, python-happybase, python-iso8601,
+      python-keystoneclient, python-novaclient, python-oslo.config, 
+      python-swiftclient, python-pbr, python-pecan, python-stevedore,
+      python-six, python-testools
+    - Added versioned dependencies for python-croniter, python-httplib2,
+      python-jsonpath-rw, python-migrate, python-mock, python-mox,
+      python-msgpack, python-oslo.vmware, 
+    - Renamed python-oslo.sphinx to python-oslosphinx.
+  * debian/patches/fix-requirements.patch: Dropped no longer needed.
+  * debian/rules: Temporarily disable tests.
+  * debian/pydist-overrides: Add pysnmp
+  * debian/ceilometer.conf.sample: Add sample configuration file
+
+  [ James Page ]
+  * debian/ceilometer-common.install: Install missing api_paste.ini to
+    /etc/ceilometer. 
+
+ -- Chuck Short <zulcss@ubuntu.com>  Mon, 15 Sep 2014 10:02:14 -0400
+
+ceilometer (2014.2~b2-0ubuntu1) utopic; urgency=medium
+
+  [ Chuck Short ]
+  * New upstream release.
+  * debian/rules: Re-enable tests.
+  * debian/paches/fix-requirements.patch: Refreshed
+  * debian/control: Add python-oslo.vmware
+  * debian/control: Add python-pysnmp4.
+  * debian/patches/skip-ubunu-tests.patch: Skip tests that are failing
+    in the buildds.
+  * debian/rules: Pipe tests through subunit.
+
+  [ Gauvain Pocentek ]
+  * debian/patches/default-log-dir.patch: define a default log directory to
+    actually get logging to work
+
+ -- Chuck Short <zulcss@ubuntu.com>  Thu, 24 Jul 2014 14:41:58 -0400
+
+ceilometer (2014.2~b1-0ubuntu2) utopic; urgency=medium
+
+  * SECURITY UPDATE: X_AUTH_TOKEN disclosure
+    - debian/patches/CVE-2014-4615.patch: filter out token in
+      ceilometer/openstack/common/middleware/notifier.py.
+    - CVE-2014-4615
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Wed, 09 Jul 2014 14:48:47 -0400
+
+ceilometer (2014.2~b1-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release.
+  * debian/control: Open up juno release
+  * debian/patches/fix-requirements.patch: Refreshed.
+  * debian/rules: Patch the ceilometer.conf.sample directly since
+    the configuration files are generated by a tool.
+  * debian/ceilometer-common.install: Drop sources.json.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Fri, 13 Jun 2014 13:20:35 -0400
+
+ceilometer (2014.1-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release (LP: #1299055).
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Wed, 16 Apr 2014 13:04:53 -0400
+
+ceilometer (2014.1~rc3-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release candidate (LP: #1299055).
+
+ -- Chuck Short <zulcss@ubuntu.com>  Tue, 15 Apr 2014 20:29:38 -0400
+
+ceilometer (2014.1~rc2-0ubuntu1) trusty; urgency=medium
+
+  [ James Page ]
+  * d/ceilometer-common.postinst: Only run db sync process if default sqlite
+    connection is configured in /etc/ceilometer/ceilometer.conf (LP: #1182964).
+
+  [ Chuck Short ]
+  * New upstream release (LP: #1299055).
+
+ -- Chuck Short <zulcss@ubuntu.com>  Tue, 08 Apr 2014 15:41:50 -0400
+
+ceilometer (2014.1~rc1-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Mon, 31 Mar 2014 11:50:09 -0400
+
+ceilometer (2014.1~b3-0ubuntu3) trusty; urgency=medium
+
+  * debian/patches/fix-requirements.patch: Explicity disable snmp.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Thu, 20 Mar 2014 13:12:54 -0400
+
+ceilometer (2014.1~b3-0ubuntu2) trusty; urgency=medium
+
+  * d/p/default-dbconnection-sqlite.patch: Fix default sqlite connection URL.
+  * d/control: Fixup typo in notification agent description (LP: #1267127).
+
+ -- James Page <james.page@ubuntu.com>  Thu, 13 Mar 2014 16:51:52 +0000
+
+ceilometer (2014.1~b3-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release.
+  * debian/patches/debian/patches/default-dbconnection-sqlite.patch: Refreshed.
+  * debian/patches/fix-setup-requirements.patch: Dropped no longer needed.
+  * debian/patches/skip-database-tests.patch: Dropped no longer needed.
+  * debian/patches/revert-keystone-compat.patch: Dropped no longer needed.
+  * debian/control:
+    - Bump python-stevedore to 0.13.
+    - Add python-croniter as a build dependency.
+    - Suggest python-pysnmp4.
+  * debian/cielometer-common.install: Add ceilometer-sample
+
+ -- Chuck Short <zulcss@ubuntu.com>  Thu, 06 Mar 2014 14:44:28 -0500
+
+ceilometer (2014.1~b2-0ubuntu1) trusty; urgency=medium
+
+  [ James Page ]
+  * d/control: Add python-jsonpath-rw to BD's.
+  * d/p/fix-setup-requirements.patch: Bump WebOb to support < 1.4.
+   (LP: #1261101)
+
+  [ Chuck Short ]
+  * New upstream version.
+  * debian/control, debian/ceilometer-common.install: Split out
+    ceilometer-alarm-evaluator and ceilometer-alarm-notifier into their
+    own packages. (LP: #1250002)
+  * debian/ceilometer-agent-central.logrotate,
+    debian/ceilometer-agent-compute.logrotate,
+    debian/ceilometer-api.logrotate,
+    debian/ceilometer-collector.logrotate: Add logrotate files, 
+    thanks to Ahmed Rahal. (LP: #1224223)
+  * Fix typos in upstart files.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Thu, 23 Jan 2014 15:08:11 -0500
+
+ceilometer (2014.1~b1-0ubuntu1) trusty; urgency=low
+
+  [ Chuck Short ]
+  * New upstream release.
+  * debian/control:
+    - Open icehouse release.
+    - Renamed msgpack-python to python-msgpack.
+    - Bump build dependency version for python-ceilometerclient,
+      python-novaclient, python-keystoneclient, python-six,
+      python-wsme.
+  * debian/patches/fix-setup-requirements.patch: Refreshed.
+  * debian/patches/skip-database-tests.patch: Refreshed.
+  * debian/rules: Temporarily disable testsuite.
+
+  [ Yolanda Robla ]
+  * debian/patches/fix-setup-requirements.patch: Refreshed.
+  * debian/patches/default-dbconnection-sqlite.patch: Refreshed
+  * debian/ceilometer-collector.install: Removed usr/bin/ceilometer-collector-udp
+  * Added ceilometer-agent-notification package:
+    - debian/control: added ceilometer-agent-notification package
+    - debian/ceilometer-agent-notification.*: added install, upstart
+    - debian/tests: added ceilometer-agent-notification to tests
+  * debian/control: updated build-depends and depends versions
+
+  [ James Page ]
+  * debian/control: Add missing BD on python-mysqldb.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Thu, 05 Dec 2013 11:59:04 -0500
+
+ceilometer (2013.2-0ubuntu1) saucy; urgency=low
+
+  * New upstream release (LP: #1236462).
+
+ -- Chuck Short <zulcss@ubuntu.com>  Thu, 17 Oct 2013 09:38:31 -0400
+
+ceilometer (2013.2~rc2-0ubuntu1) saucy; urgency=low
+
+  * New upstream release candidate (LP: #1239156):
+    - d/p/revert-keystone-compat.patch: Revert keystoneclient 0.4.0 compat
+      fix as this causes test failures against 0.3.4.
+  * d/control: Drop a3 from versioned dependency on python-oslo.config.
+
+ -- James Page <james.page@ubuntu.com>  Mon, 14 Oct 2013 10:30:03 +0100
+
+ceilometer (2013.2~rc1-0ubuntu1) saucy; urgency=low
+
+  * debian/patches/fix-setup-requirements.patch: Dropped no longer
+    needed.
+  * debian/patches/skip-database.patch: Refreshed
+  * debian/control:
+    - Add versioned dependency for python-pbr.
+    - Bump version dependency for python-webob.
+    - Add versioned dependency for alembic.
+    - Bump versioned dependency for python-sqlalchemy.
+    - Add versioned dependency for python-pymongo.
+    - Add versioned dependency for python-eventlet.
+    - Dropped python-extras dependency.
+    - Bump versioned dependency for python-flask.
+    - Bump versioned dependency for python-stevedore.
+    - Add versioned dependency for python-glanceclient.
+    - Bump versioned dependency for python-novaclient.
+    - Bump versioned dependency for python-keystoneclient.
+    - Bump versioned dependency for python-ceilometerclient.
+    - Add versioned dependency for python-lxml.
+    - Bump versioned dependency for python-wsme.
+    - Dropped python-netifaces dependency.
+    - Added python-httplib2 build dependency.
+    - Bump versioned dependency for python-fixtures.
+    - Bump versioned dependency for testrepository.
+    - Added versioned dependency for python-testtools.
+    - Added versioned dependency for python-swiftclient.
+    - Dropped python-cinderclient dependency.
+    - Dropped python-lockfile dependency.
+    - Dropped python-setuptoools-git dependency.
+    - Dropped python-unittest2 dependency.
+    - Dropped python-d2to1 dependency.
+    - Added versioned dependency for python-testtools.
+    - Added binary dependency for python-netaddr.
+    - Add python-six as a dependency.
+  * debian/patches/fix-setup-requirements.patch: Bump sqlachemy version.
+  * debian/ceilometer-common.install:
+    - Dropped ceilometer-alarm-singleton, no longer exists.
+    - Added usr/bin/ceilometer-alarm-evaluator.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Thu, 03 Oct 2013 08:40:40 -0400
+
+ceilometer (2013.2~b3-0ubuntu1) saucy; urgency=low
+
+  [ Chuck Short ]
+  * New upstream release.
+  * debian/patches/fix-setup-requirements.patch: Refreshed
+  * debian/patches/skip-database.patch: Refreshed
+
+  [ Yolanda Robla ]
+  * debian/control,debian/tests: Add basic autopkgtests.
+
+  [ Adam Gandelman ]
+  * debian/patches/default-dbconnection-sqlite.patch: Set 'connection' flag
+    in [database] section, referencing 'sqlite_db' (LP: #1221956).
+  * debian/patches/skip-database-tests.patch: Also patch out db2 and hbase
+    scenarios in v2 test_statistics_scenarios.py.
+  * debian/rules: Clean python-pbr egg if it exists, set PYTHONPATH to build
+    dir when running tests.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Sat, 07 Sep 2013 15:58:58 -0400
+
+ceilometer (2013.2~b2-0ubuntu4) saucy; urgency=low
+
+  * debian/patches/skip-database-tests.patch: Refreshed due to precise failures. 
+
+ -- Chuck Short <zulcss@ubuntu.com>  Sun, 28 Jul 2013 21:58:31 -0400
+
+ceilometer (2013.2~b2-0ubuntu3) saucy; urgency=low
+
+  * debian/rules: Enable testsuite.
+  * debian/control: Fix up run time dependencies.
+  * debian/patches/fix-setup-requirements.patch: Refreshed
+  * debian/patches/skip-database-tests.patch: Refreshed
+
+ -- Chuck Short <zulcss@ubuntu.com>  Mon, 22 Jul 2013 15:17:35 -0400
+
+ceilometer (2013.2~b2-0ubuntu2) saucy; urgency=low
+
+  * debian/control: Fix sqlalchemy dependency. 
+
+ -- Chuck Short <zulcss@ubuntu.com>  Fri, 19 Jul 2013 14:51:18 -0400
+
+ceilometer (2013.2~b2-0ubuntu1) saucy; urgency=low
+
+  [ Yolanda Robla ]
+  * debian/patches/default-dbconnection-sqlite.patch: updated db section
+
+  [ Chuck Short ]
+  * New upstream version.
+  * debian/patches/default-dbconnection-sqlite.patch: Refreshed.
+  * debian/control: Bump requirements for stevedore to 0.9.
+  * debian/control: Add python-simplejson
+  * debian/control: Drop python-keystoneclient hardcoded version.
+  * debian/control: Add python-testscenarios as a build depends.
+  * debian/control: Add python-cinderclient as a build depends.
+  * debian/control: Add python-ceilometerclient as a build depends.
+  * debian/control: Add python-alembic as build depends.
+  * debian/control: Add python-oslo.sphinx as build-depends.
+  * debian/control: Update runtime depends.
+  * debian/control: Add python-happybase.
+  * debian/ceilometer-common.install: Add ceilometer-alarm-singleton,
+    ceilometer-alarm-notifier, and ceilometer-expirer.
+  * debian/patches/skip-database-tests.patch: Skip database tests
+    if the database is not installed.
+
+  [ James Page ]
+  * d/control: Update VCS fields for new branch locations.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Fri, 19 Jul 2013 10:04:36 -0400
+
+ceilometer (2013.2~b1-0ubuntu1) saucy; urgency=low
+
+  * New upstream release.
+  * debian/rules: Add fail-missing if binaries are missing 
+    from the packages.
+  * debian/control: Add python-happybase as build-dependencies.
+  * debian/control: Add python-pbr and python-d2to1 as build-dependencies
+  * debian/control: Add python-fixtures as build-dependencies.
+  * debian/control: Add python-nova as build-dependencies.
+  * debian/control: Add python-testtools
+  * debian/control: Add msgpack-python.
+  * debian/patches/requests-dep.patch: Dropped no longer needed.
+  * debian/patches/remove-hbase-support.patch: Dropped no longer neded.
+  * debian/patches/default-dbconnection-sqlite.patch: Refreshed.
+  * debian/rules: Use testr instead of nosetests to run tests.
+  * debian/ceilometer-collector.install: Added usr/bin/ceilometer-collector-udp.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Fri, 31 May 2013 10:29:16 -0500
+
+ceilometer (2013.1-0ubuntu1) raring; urgency=low
+
+  * New upstream release. 
+
+ -- Chuck Short <zulcss@ubuntu.com>  Fri, 05 Apr 2013 14:34:37 -0500
+
+ceilometer (2013.1~rc1-0ubuntu1) raring; urgency=low
+
+  [ Chuck Short ]
+  * New upstream release. 
+  * debian/watch: point to the right releases.
+  * debian/rules: Enable testsuite.
+  * debian/ceilometer-agent-compute.postinst: Add smarts to 
+    configure users after install.
+  * debian/ceilometer-common.postinst: Configure ceilometer db.
+  * debian/ceilometer-common.install: Install configuration files.
+  * debian/*.upstart: Update and use start-stop-daemon.
+
+  [ James Page ]
+  * Added watch file.
+  * d/rules: Fixup test suite execution as much as possible:
+    - Set PYTHONPATH to CURDIR during execution.
+    - Provide HOME directory for keystone tests.
+    - Override clean to tidy up after execution.
+  * d/control: Tidied BD's:
+    - Drop python-ming (not the right ming).
+    - python-oslo-config -> python-oslo.config.
+    - Dropped misc other surplus/duplicate dependencies.
+    - Wrapped and sorted.
+  * d/p/request-dep.patch: Remove upper bound on python-requests inline with
+    the rest of OpenStack.
+  * d/p/remove-hbase-support.patch: Remove happybase dependency.
+  * d/control: Bumped Standards-Version, no changes.
+
+  [ Yolanda Robla ]
+  * d/rules: Copy ceilometer.conf.sample to ceilometer.conf.
+  * d/ceilometer-common.install: Install ceilometer.conf and ceilometer-dbsync.
+  * d/ceilometer-common.postinst: fixing user/group creation.
+  * d/*.upstart: Fix upstart jobs.
+  * d/pydist-overrides: Correct pymongo and wsme package names.
+  * d/control: modified mongodb recommends to suggests (LP: #1131627).
+  * d/files: copying pipeline.yaml.
+  * d/control: fixed typo (LP: #1140309).
+  * d/patches/default-dbconnection-sqlite.patch: default db to sqlite
+
+ -- Chuck Short <zulcss@ubuntu.com>  Tue, 26 Mar 2013 11:23:03 -0500
+
+ceilometer (0.1-0ubuntu2) raring; urgency=low
+
+  * Fix typo in debian/control (ceioleter -> ceilometer) (LP: #1140309)
+
+ -- Hans Joachim Desserud <ubuntu@desserud.org>  Sun, 03 Mar 2013 20:08:39 +0100
+
+ceilometer (0.1-0ubuntu1) quantal; urgency=low
+
+  * New upstream release.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Fri, 12 Oct 2012 09:34:05 -0500
+
+ceilometer (0~20121002-0ubuntu2) quantal; urgency=low
+
+  * Fix two typos in dependencies in debian/control (LP: #1063244)
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Sun, 07 Oct 2012 07:49:55 -0600
+
+ceilometer (0~20121002-0ubuntu1) quantal; urgency=low
+
+  * Initial release.
+
+ -- Chuck Short <zulcss@ubuntu.com>  Wed, 03 Oct 2012 13:00:29 -0500

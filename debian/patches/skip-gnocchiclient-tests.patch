@@ -1,0 +1,85 @@
+Description: Skip python-gnocchiclient tests as it and gnocchi are not
+             supported in main.
+Author: Corey Bryant <corey.bryant@canonical.com>
+Forwarded: No
+
+--- a/ceilometer/tests/unit/dispatcher/test_gnocchi.py
++++ b/ceilometer/tests/unit/dispatcher/test_gnocchi.py
+@@ -17,8 +17,12 @@
+ 
+ import os
+ import uuid
++import testtools
+ 
+-from gnocchiclient import exceptions as gnocchi_exc
++try:
++    from gnocchiclient import exceptions as gnocchi_exc
++except ImportError:
++    gnocchi_exc = None
+ import mock
+ from oslo_config import fixture as config_fixture
+ from oslo_utils import fileutils
+@@ -27,7 +31,10 @@
+ import six
+ import testscenarios
+ 
+-from ceilometer.dispatcher import gnocchi
++try:
++    from ceilometer.dispatcher import gnocchi
++except ImportError:
++    gnocchi = None
+ from ceilometer import service as ceilometer_service
+ from ceilometer.tests import base
+ 
+@@ -37,6 +44,7 @@
+ @mock.patch('gnocchiclient.v1.client.Client', mock.Mock())
+ class DispatcherTest(base.BaseTestCase):
+ 
++    @testtools.skipIf(not gnocchi_exc, "Skipped by Ubuntu")
+     def setUp(self):
+         super(DispatcherTest, self).setUp()
+         self.conf = self.useFixture(config_fixture.Config())
+@@ -276,6 +284,7 @@
+         cls.scenarios = testscenarios.multiply_scenarios(cls.sample_scenarios,
+                                                          cls.worflow_scenarios)
+ 
++    @testtools.skipIf(not gnocchi_exc, "Skipped by Ubuntu")
+     def setUp(self):
+         super(DispatcherWorkflowTest, self).setUp()
+         self.conf = self.useFixture(config_fixture.Config())
+--- a/ceilometer/tests/unit/dispatcher/test_dispatcher.py
++++ b/ceilometer/tests/unit/dispatcher/test_dispatcher.py
+@@ -12,6 +12,8 @@
+ # License for the specific language governing permissions and limitations
+ # under the License.
+ 
++import testtools
++
+ from oslo_config import fixture
+ from oslotest import mockpatch
+ 
+@@ -37,16 +39,19 @@
+     def setUp(self):
+         super(TestDispatchManager, self).setUp()
+         self.conf = self.useFixture(fixture.Config())
+-        self.conf.config(meter_dispatchers=['database', 'gnocchi'],
++        self.conf.config(meter_dispatchers=['database'],
+                          event_dispatchers=['database'])
+-        self.useFixture(mockpatch.Patch(
+-            'ceilometer.dispatcher.gnocchi.GnocchiDispatcher',
+-            new=FakeDispatcherSample))
++        try:
++            self.useFixture(mockpatch.Patch(
++                'ceilometer.dispatcher.gnocchi.GnocchiDispatcher',
++                new=FakeDispatcherSample))
++        except ImportError:
++            testtools.skip("Skipped by Ubuntu")
+         self.useFixture(mockpatch.Patch(
+             'ceilometer.dispatcher.database.DatabaseDispatcher',
+             new=FakeDispatcher))
+ 
+     def test_load(self):
+         sample_mg, event_mg = dispatcher.load_dispatcher_manager()
+-        self.assertEqual(2, len(list(sample_mg)))
++        self.assertEqual(1, len(list(sample_mg)))
+         self.assertEqual(1, len(list(event_mg)))
