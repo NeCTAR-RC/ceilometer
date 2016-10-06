@@ -1,0 +1,14 @@
+diff --git a/MANIFEST.in b/MANIFEST.in
+new file mode 100644
+index 0000000..fd6473c
+--- /dev/null
++++ b/MANIFEST.in
+@@ -0,0 +1,5 @@
++include ceilometer/api/app.wsgi
++recursive-include ceilometer/locale *
++recursive-include ceilometer/storage/sqlalchemy *
++recursive-include ceilometer/tests *
++global-include *.yaml
+-- 
+2.7.4
+

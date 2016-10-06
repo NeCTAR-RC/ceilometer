@@ -2,3 +2,4 @@ skip-test.patch
 skip-gabbi.patch
 disable-kafka.patch
 fix-fallback-meter-path.patch
+fix-manifest.patch
