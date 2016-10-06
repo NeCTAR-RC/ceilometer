@@ -1,0 +1,5 @@
+include ceilometer/api/app.wsgi
+recursive-include ceilometer/locale *
+recursive-include ceilometer/storage/sqlalchemy *
+recursive-include ceilometer/tests *
+global-include *.yaml
