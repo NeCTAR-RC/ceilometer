@@ -376,20 +376,6 @@ class GnocchiDispatcher(dispatcher.MeterDispatcherBase):
         except Exception as e:
             LOG.error(six.text_type(e), exc_info=True)
 
-        for gnocchi_id, info in gnocchi_data.items():
-            resource = info["resource"]
-            resource_type = info["resource_type"]
-            resource_extra = info["resource_extra"]
-            if not resource_extra:
-                continue
-            try:
-                self._if_not_cached("update", resource_type, resource,
-                                    self._update_resource, resource_extra)
-            except gnocchi_exc.ClientException as e:
-                LOG.error(six.text_type(e))
-            except Exception as e:
-                LOG.error(six.text_type(e), exc_info=True)
-
     RE_UNKNOW_METRICS = re.compile("Unknown metrics: (.*) \(HTTP 400\)")
     RE_UNKNOW_METRICS_LIST = re.compile("([^/ ,]*)/([^,]*)")
 
