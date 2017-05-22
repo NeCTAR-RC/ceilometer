@@ -32,7 +32,7 @@ META_TYPE_MAP = {bool: models.MetaBool,
                  int: models.MetaBigInt,
                  float: models.MetaFloat}
 if six.PY2:
-    META_TYPE_MAP[long] = models.MetaBigInt
+    META_TYPE_MAP[long] = models.MetaBigInt  # noqa
 
 
 class QueryTransformer(object):
