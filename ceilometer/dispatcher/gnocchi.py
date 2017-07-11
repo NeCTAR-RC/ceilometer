@@ -440,10 +440,16 @@ class GnocchiDispatcher(dispatcher.MeterDispatcherBase,
         LOG.debug('Resource %s created', resource["id"])
 
     def _update_resource(self, resource_type, resource, resource_extra):
-        self._gnocchi.resource.update(resource_type,
-                                      resource["id"],
-                                      resource_extra)
-        LOG.debug('Resource %s updated', resource["id"])
+        try:
+            self._gnocchi.resource.update(resource_type,
+                                          resource["id"],
+                                          resource_extra)
+            LOG.debug('Resource %s updated', resource["id"])
+        except gnocchi_exc.ResourceNotFound:
+            LOG.debug("Resource %s does not exist, creating", resource['id'])
+            # Note(jake): remove metrics before creating
+            resource.pop('metrics', None)
+            self._create_resource(resource_type, resource)
 
     def _if_not_cached(self, operation, resource_type, resource, method,
                        *args, **kwargs):
