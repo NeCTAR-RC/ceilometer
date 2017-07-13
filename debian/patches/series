@@ -1,1 +1,2 @@
-add-loadbalancer-resource-type.patch
+Only-print-polling.yaml-file-contents-as-DEBUG.patch
+fix-manifest.patch
