@@ -1,2 +1,3 @@
 drop-kafka.patch
 drop-openstackdoctheme.patch
+fix-manifest.patch
