@@ -1,3 +1,4 @@
 skip-test.patch
 disable-kafka.patch
 fix-fallback-meter-path.patch
+fix-manifest.patch
