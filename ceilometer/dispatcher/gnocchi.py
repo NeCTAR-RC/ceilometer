@@ -17,6 +17,7 @@ import hashlib
 import itertools
 import operator
 import pkg_resources
+import re
 import threading
 import uuid
 
@@ -398,38 +399,82 @@ class GnocchiDispatcher(dispatcher.MeterDispatcherBase,
                  resource_infos[rid]['resource'])
                 for rid in resource_ids]
 
+    RE_UNKNOW_METRICS = re.compile("Unknown metrics: (.*) \(HTTP 400\)")
+    RE_UNKNOW_METRICS_LIST = re.compile("([^/ ,]*)/([^,]*)")
+
     def batch_measures(self, measures, resource_infos, stats):
         # NOTE(sileht): We don't care about error here, we want
         # resources metadata always been updated
         try:
             self._gnocchi.metric.batch_resources_metrics_measures(
-                measures, create_metrics=True)
+                measures)
         except gnocchi_exc.BadRequest as e:
+            m = self.RE_UNKNOW_METRICS.match(six.text_type(e))
             if not isinstance(e.message, dict):
                 raise
-            if e.message.get('cause') != 'Unknown resources':
+            if e.message.get('cause') != 'Unknown resources' and m is None:
                 raise
 
-            resources = self._extract_resources_from_error(e, resource_infos)
-            for resource_type, resource in resources:
-                try:
-                    self._if_not_cached("create", resource_type, resource,
-                                        self._create_resource)
-                except gnocchi_exc.ResourceAlreadyExists:
-                    # NOTE(sileht): resource created in the meantime
-                    pass
-                except gnocchi_exc.ClientException as e:
-                    LOG.error(_LE('Error creating resource %(id)s: %(err)s'),
-                              {'id': resource['id'], 'err': six.text_type(e)})
-                    # We cannot post measures for this resource
-                    # and we can't patch it later
-                    del measures[resource['id']]
-                    del resource_infos[resource['id']]
+            # if instance doesn't exists
+            if isinstance(e.message, dict):
+                resources = self._extract_resources_from_error(e,
+                                                               resource_infos)
+                for resource_type, resource in resources:
+                    try:
+                        self._if_not_cached("create", resource_type, resource,
+                                            self._create_resource)
+                    except gnocchi_exc.ResourceAlreadyExists:
+                        # NOTE(sileht): resource created in the meantime
+                        pass
+                    except gnocchi_exc.ClientException as e:
+                        LOG.error(_LE(
+                                  'Error creating resource %(id)s: %(err)s'),
+                                  {'id': resource['id'],
+                                   'err': six.text_type(e)})
+                        # We cannot post measures for this resource
+                        # and we can't patch it later
+                        del measures[resource['id']]
+                        del resource_infos[resource['id']]
+
+            # NOTE(jake): if metric doesn't exists (mitaka gnocchi)
+            if m is not None:
+                # NOTE(sileht): Create all missing resources and metrics
+                metric_list = self.RE_UNKNOW_METRICS_LIST.findall(m.group(1))
+                gnocchi_ids_freshly_handled = set()
+                for gnocchi_id, metric_name in metric_list:
+                    if gnocchi_id in gnocchi_ids_freshly_handled:
+                        continue
+                    resource = resource_infos[gnocchi_id]['resource']
+                    resource_type = resource_infos[gnocchi_id]['resource_type']
+                    try:
+                        self._if_not_cached("create", resource_type, resource,
+                                            self._create_resource)
+                    except gnocchi_exc.ResourceAlreadyExists:
+                        metric = {'resource_id': resource['id'],
+                                  'name': metric_name}
+                        metric.update(resource["metrics"][metric_name])
+                        try:
+                            self._gnocchi.metric.create(metric)
+                        except gnocchi_exc.NamedMetricAlreadyExists:
+                            # NOTE(sileht): metric created in the meantime
+                            pass
+                        except gnocchi_exc.ClientException as e:
+                            LOG.error(six.text_type(e))
+                            # We cannot post measures for this metric
+                            del measures[gnocchi_id][metric_name]
+                            if not measures[gnocchi_id]:
+                                del measures[gnocchi_id]
+                    except gnocchi_exc.ClientException as e:
+                        LOG.error(six.text_type(e))
+                        # We cannot post measures for this resource
+                        del measures[gnocchi_id]
+                        gnocchi_ids_freshly_handled.add(gnocchi_id)
+                    else:
+                        gnocchi_ids_freshly_handled.add(gnocchi_id)
 
             # NOTE(sileht): we have created missing resources/metrics,
             # now retry to post measures
-            self._gnocchi.metric.batch_resources_metrics_measures(
-                measures, create_metrics=True)
+            self._gnocchi.metric.batch_resources_metrics_measures(measures)
 
         # FIXME(sileht): take care of measures removed in stats
         LOG.debug("%(measures)d measures posted against %(metrics)d "
