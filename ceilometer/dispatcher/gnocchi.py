@@ -360,9 +360,6 @@ class GnocchiDispatcher(dispatcher.MeterDispatcherBase,
                         metric_name, [])
                     m.append({'timestamp': sample['timestamp'],
                               'value': sample['counter_volume']})
-                    unit = sample['counter_unit']
-                    metric = sample['counter_name']
-                    res_info['resource']['metrics'][metric]['unit'] = unit
 
                 stats['measures'] += len(measures[resource_id][metric_name])
                 res_info["resource"].update(res_info["resource_extra"])
@@ -410,10 +407,16 @@ class GnocchiDispatcher(dispatcher.MeterDispatcherBase,
                 measures)
         except gnocchi_exc.BadRequest as e:
             m = self.RE_UNKNOW_METRICS.match(six.text_type(e))
-            if not isinstance(e.message, dict):
-                raise
-            if e.message.get('cause') != 'Unknown resources' and m is None:
-                raise
+            # NOTE(jake): Handles differences between gnocchi 2 & 3 return
+            if isinstance(e.message, dict):
+                # Gnocchi >= 3.1.0, handled in
+                # Change-Id If1f684ad368d4fb797267bbc4c099938f2722dfe
+                if e.message.get('cause') != 'Unknown resources':
+                    raise
+            else:
+                # Gnocchi 2.1
+                if m is None:
+                    raise
 
             # if instance doesn't exists
             if isinstance(e.message, dict):
@@ -492,8 +495,6 @@ class GnocchiDispatcher(dispatcher.MeterDispatcherBase,
             LOG.debug('Resource %s updated', resource["id"])
         except gnocchi_exc.ResourceNotFound:
             LOG.debug("Resource %s does not exist, creating", resource['id'])
-            # Note(jake): remove metrics before creating
-            resource.pop('metrics', None)
             self._create_resource(resource_type, resource)
 
     def _if_not_cached(self, operation, resource_type, resource, method,
