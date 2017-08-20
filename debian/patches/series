@@ -1,0 +1,3 @@
+skip-test.patch
+disable-kafka.patch
+fix-fallback-meter-path.patch

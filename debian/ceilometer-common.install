@@ -1,0 +1,19 @@
+etc/ceilometer/ceilometer.conf etc/ceilometer
+tools/show_data.py usr/share/doc/ceilometer
+usr/bin/ceilometer-db-legacy-clean
+usr/bin/ceilometer-dbsync
+usr/bin/ceilometer-expirer
+usr/bin/ceilometer-polling
+usr/bin/ceilometer-rootwrap
+usr/bin/ceilometer-send-sample
+usr/bin/ceilometer-upgrade
+usr/etc/ceilometer/api_paste.ini etc/ceilometer
+usr/etc/ceilometer/event_definitions.yaml etc/ceilometer
+usr/etc/ceilometer/event_pipeline.yaml etc/ceilometer
+usr/etc/ceilometer/examples/loadbalancer_v2_meter_definitions.yaml usr/share/ceilometer
+usr/etc/ceilometer/examples/osprofiler_event_definitions.yaml usr/share/ceilometer
+usr/etc/ceilometer/gnocchi_resources.yaml etc/ceilometer
+usr/etc/ceilometer/pipeline.yaml etc/ceilometer
+usr/etc/ceilometer/policy.json etc/ceilometer
+usr/etc/ceilometer/rootwrap.conf etc/ceilometer
+usr/etc/ceilometer/rootwrap.d/ipmi.filters etc/ceilometer/rootwrap.d
