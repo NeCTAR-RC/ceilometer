@@ -700,7 +700,8 @@ class DispatcherWorkflowTest(base.BaseTestCase,
         expected_calls = [
             mock.call.capabilities.list(),
             mock.call.metric.batch_resources_metrics_measures(
-                {resource_id: {metric_name: self.measures_attributes}})
+                {resource_id: {metric_name: self.measures_attributes}},
+                create_metrics=True)
         ]
         expected_debug = [
             mock.call('gnocchi project found: %s',
@@ -746,7 +747,8 @@ class DispatcherWorkflowTest(base.BaseTestCase,
             if not self.create_resource_fail:
                 expected_calls.append(
                     mock.call.metric.batch_resources_metrics_measures(
-                        {resource_id: {metric_name: self.measures_attributes}})
+                        {resource_id: {metric_name: self.measures_attributes}},
+                        create_metrics=True)
                 )
 
                 if self.retry_post_measures_fail:
