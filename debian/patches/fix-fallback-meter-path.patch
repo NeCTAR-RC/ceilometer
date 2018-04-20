@@ -3,7 +3,7 @@ Author: James Page <james.page@ubuntu.com>
 
 --- a/ceilometer/tests/unit/meter/test_notifications.py
 +++ b/ceilometer/tests/unit/meter/test_notifications.py
-@@ -273,10 +273,7 @@ class TestMeterProcessing(test.BaseTestC
+@@ -273,10 +273,7 @@
                          mock.mock_open(read_data='---\nmetric: []'),
                          create=True) as mock_open:
              self.handler._load_definitions()
