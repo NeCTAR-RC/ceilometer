@@ -1,0 +1,15 @@
+Description: Drop kafka as it is a Suggested package and
+  not in main.
+Author: Corey Bryant <corey.bryant@canonical.com>
+Forwarded: no
+
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -9,7 +9,6 @@
+ debtcollector>=1.2.0 # Apache-2.0
+ jsonpath-rw-ext>=0.1.9 # Apache-2.0
+ jsonschema!=2.5.0,<3.0.0,>=2.0.0 # MIT
+-kafka-python>=1.3.2 # Apache-2.0
+ keystonemiddleware!=4.19.0,!=4.1.0,>=4.0.0 # Apache-2.0
+ lxml>=2.3 # BSD
+ monotonic

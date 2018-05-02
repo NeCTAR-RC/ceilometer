@@ -1,0 +1,15 @@
+etc/ceilometer/ceilometer.conf etc/ceilometer
+etc/ceilometer/polling.yaml etc/ceilometer
+usr/bin/ceilometer-db-legacy-clean
+usr/bin/ceilometer-expirer
+usr/bin/ceilometer-polling
+usr/bin/ceilometer-rootwrap
+usr/bin/ceilometer-send-sample
+usr/bin/ceilometer-upgrade
+usr/bin/ceilometer-upgrade
+etc/ceilometer/api_paste.ini etc/ceilometer
+etc/ceilometer/examples/loadbalancer_v2_meter_definitions.yaml usr/share/ceilometer
+etc/ceilometer/examples/osprofiler_event_definitions.yaml usr/share/ceilometer
+etc/ceilometer/policy.json etc/ceilometer
+etc/ceilometer/rootwrap.conf etc/ceilometer
+etc/ceilometer/rootwrap.d/ipmi.filters etc/ceilometer/rootwrap.d

@@ -1,0 +1,4 @@
+pymongo python-pymongo
+happybase
+pysnmp
+kafka kafka-python
