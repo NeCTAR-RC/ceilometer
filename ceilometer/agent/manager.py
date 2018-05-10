@@ -49,6 +49,9 @@ OPTS = [
                 help='To reduce polling agent load, samples are sent to the '
                      'notification agent in a batch. To gain higher '
                      'throughput at the cost of load set this to False.'),
+    cfg.IntOpt('polling_batch_size',
+               default=50,
+               help='Size to batch polled samples',),
     cfg.IntOpt('shuffle_time_before_polling_task',
                default=0,
                help='To reduce large requests at same time to Nova or other '
@@ -197,6 +200,9 @@ class PollingTask(object):
                                 sample, self._telemetry_secret
                             ))
                         if self._batch:
+                            if len(sample_batch) > self.conf.polling_batch_size:
+                                self._send_notification(sample_batch)
+                                sample_batch = []
                             sample_batch.append(sample_dict)
                         else:
                             self._send_notification([sample_dict])
