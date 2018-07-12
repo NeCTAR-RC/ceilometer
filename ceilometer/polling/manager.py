@@ -48,6 +48,9 @@ OPTS = [
                 help='To reduce polling agent load, samples are sent to the '
                      'notification agent in a batch. To gain higher '
                      'throughput at the cost of load set this to False.'),
+    cfg.IntOpt('polling_batch_size',
+               default=50,
+               help='Size to batch polled samples',),
 ]
 
 POLLING_OPTS = [
@@ -132,6 +135,7 @@ class PollingTask(object):
         self.resources = collections.defaultdict(resource_factory)
 
         self._batch = self.manager.conf.batch_polled_samples
+        self._batch_size = self.manager.conf.polling_batch_size
         self._telemetry_secret = self.manager.conf.publisher.telemetry_secret
 
     def add(self, pollster, source):
@@ -195,6 +199,9 @@ class PollingTask(object):
                                 sample, self._telemetry_secret
                             ))
                         if self._batch:
+                            if len(sample_batch) > self._batch_size:
+                                self._send_notification(sample_batch)
+                                sample_batch = []
                             sample_batch.append(sample_dict)
                         else:
                             self._send_notification([sample_dict])
