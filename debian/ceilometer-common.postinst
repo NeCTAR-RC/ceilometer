@@ -1,0 +1,26 @@
+#!/bin/sh -e
+
+if [ "$1" = "configure" ]; then
+    if ! getent group ceilometer > /dev/null 2>&1; then
+        addgroup --system ceilometer >/dev/null
+    fi
+
+    if ! getent passwd ceilometer > /dev/null 2>&1; then
+        adduser --system --home /var/lib/ceilometer --ingroup ceilometer --no-create-home --shell /bin/false ceilometer
+    fi
+
+    chown -R ceilometer:adm /var/log/ceilometer
+    chmod 0750 /var/log/ceilometer
+    chown -R root:ceilometer /var/lib/ceilometer /etc/ceilometer
+    chown -R root:root /etc/ceilometer/rootwrap.d
+    chmod 0755 /etc/ceilometer/rootwrap.d
+    chown root:root /etc/ceilometer/rootwrap.conf
+    chown 0700 /etc/ceilometer
+    chmod 0640 /etc/ceilometer/ceilometer.conf
+
+    if [ -e /var/lib/ceilometer/ceilometer.sqlite ]; then
+        chown ceilometer:ceilometer /var/lib/ceilometer/ceilometer.sqlite
+        chmod 0600 /var/lib/ceilometer/ceilometer.sqlite
+    fi
+fi
+#DEBHELPER#

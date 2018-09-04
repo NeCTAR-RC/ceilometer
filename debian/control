@@ -1,0 +1,248 @@
+Source: ceilometer
+Section: python
+Priority: optional
+Maintainer: Chuck Short <zulcss@ubuntu.com>
+Build-Depends:
+ debhelper (>= 10~),
+ dh-python,
+ openstack-pkg-tools (>= 23~),
+ python-all,
+ python-pbr (>= 1.10.0),
+ python-setuptools,
+ python3-sphinx (>= 1.6.2),
+Build-Depends-Indep:
+ python-awsauth (>= 0.1.4),
+ python-cachetools (>= 2.0.0),
+ python-cinderclient (>= 1:1.6.0),
+ python-concurrent.futures (>= 3.0),
+ python-cotyledon (>= 1.3.0),
+ python-coverage (>= 3.6),
+ python-croniter,
+ python-dateutil (>= 2.4.2),
+ python-debtcollector (>= 1.2.0),
+ python-fixtures (>= 1.3.1),
+ python-futurist (>= 0.11.0),
+ python-gabbi (>= 1.30.0),
+ python-glanceclient (>= 1:2.0.0),
+ python-gnocchiclient (>= 4.0.0),
+ python-jsonpath-rw-ext (>= 0.1.9),
+ python-kafka (>= 1.3.2),
+ python-keystoneauth1 (>= 3.3.0),
+ python-keystoneclient (>= 1:1.6.0),
+ python-lxml (>= 2.3),
+ python-mock (>= 2.0.0),
+ python-monotonic,
+ python-msgpack (>= 0.4.0),
+ python-neutronclient (>= 1:4.2.0),
+ python-novaclient (>= 2:2.29.0),
+ python-openssl (>= 0.14),
+ python-openstackdocstheme (>= 1.18.1),
+ python-os-testr (>= 1.0.0),
+ python-os-win (>= 0.2.3),
+ python-os-xenapi (>= 0.3.1),
+ python-oslo.cache (>= 1.26.0),
+ python-oslo.concurrency (>= 3.25.0),
+ python-oslo.config (>= 1:5.1.0),
+ python-oslo.i18n (>= 3.15.3),
+ python-oslo.log (>= 3.36.0),
+ python-oslo.messaging (>= 5.29.0),
+ python-oslo.reports (>= 0.6.0),
+ python-oslo.rootwrap (>= 2.0.0),
+ python-oslo.serialization (>= 2.18.0),
+ python-oslo.utils (>= 3.33.0),
+ python-oslo.vmware (>= 1.16.0),
+ python-oslotest (>= 1:2.15.0),
+ python-pysnmp4 (>= 4.2.3),
+ python-requests (>= 2.8.1),
+ python-six (>= 1.10.0),
+ python-stevedore (>= 1:1.9.0),
+ python-swiftclient (>= 1:2.2.0),
+ python-tempest (>= 1:14.0.0),
+ python-tenacity (>= 3.2.1),
+ python-testrepository (>= 0.0.18),
+ python-testscenarios (>= 0.4),
+ python-testtools (>= 2.2.0),
+ python-tooz (>= 1.47.0),
+ python-yaml (>= 3.1.0),
+ python-zaqarclient (>= 1.0.0),
+Standards-Version: 4.1.2
+Vcs-Browser: https://git.launchpad.net/~ubuntu-server-dev/ubuntu/+source/ceilometer
+Vcs-Git: git://git.launchpad.net/~ubuntu-server-dev/ubuntu/+source/ceilometer
+
+Package: ceilometer-agent-central
+Architecture: all
+Depends:
+ ceilometer-common (= ${binary:Version}),
+ ${misc:Depends},
+ ${python:Depends},
+Description: ceilometer central agent
+ Ceilometer aims to deliver a unique point of contact for billing systems to
+ acquire all counters they need to establish customer billing, across all
+ current and future OpenStack components. The delivery of counters must
+ be traceable and auditable, the counters must be easily extensible to support
+ new projects, and agents doing data collections should be
+ independent of the overall system.
+ .
+ (A ceilometer is an instrument that measures cloud coverage.)
+ .
+ This package contains the central agent.
+
+Package: ceilometer-agent-compute
+Architecture: all
+Depends:
+ ceilometer-common (= ${binary:Version}),
+ ${misc:Depends},
+ ${python:Depends},
+Description: ceilometer compute agent
+ Ceilometer aims to deliver a unique point of contact for billing systems to
+ acquire all counters they need to establish customer billing, across all
+ current and future OpenStack components. The delivery of counters must
+ be traceable and auditable, the counters must be easily extensible to support
+ new projects, and agents doing data collections should be
+ independent of the overall system.
+ .
+ (A ceilometer is an instrument that measures cloud coverage.)
+ .
+ This package contains the compute agent
+
+Package: ceilometer-agent-ipmi
+Architecture: all
+Depends:
+ ceilometer-common (= ${binary:Version}),
+ ipmitool,
+ ${misc:Depends},
+ ${python:Depends},
+Description: ceilometer ipmi agent
+ Ceilometer aims to deliver a unique point of contact for billing systems to
+ acquire all counters they need to establish customer billing, across all
+ current and future OpenStack components. The delivery of counters must
+ be traceable and auditable, the counters must be easily extensible to support
+ new projects, and agents doing data collections should be
+ independent of the overall system.
+ .
+ (A ceilometer is an instrument that measures cloud coverage.)
+ .
+ This package contains the ipmi agent.
+
+Package: ceilometer-agent-notification
+Architecture: all
+Depends:
+ ceilometer-common (= ${binary:Version}),
+ ${misc:Depends},
+ ${python:Depends},
+Description: ceilometer notification agent
+ Ceilometer aims to deliver a unique point of contact for billing systems to
+ acquire all counters they need to establish customer billing, across all
+ current and future OpenStack components. The delivery of counters must
+ be traceable and auditable, the counters must be easily extensible to support
+ new projects, and agents doing data collections should be
+ independent of the overall system.
+ .
+ (A ceilometer is an instrument that measures cloud coverage.)
+ .
+ This package contains the notification agent.
+
+Package: ceilometer-common
+Architecture: all
+Depends:
+ adduser,
+ python-ceilometer (= ${binary:Version}),
+ ${misc:Depends},
+ ${python:Depends},
+Provides:
+ ${python:Provides},
+Breaks:
+ ceilometer-polling (<< 1:5.0.0~rc1-0ubuntu2~),
+Replaces:
+ ceilometer-polling (<< 1:5.0.0~rc1-0ubuntu2~),
+Description: ceilometer common files
+ Ceilometer aims to deliver a unique point of contact for billing systems to
+ acquire all counters they need to establish customer billing, across all
+ current and future OpenStack components. The delivery of counters must
+ be traceable and auditable, the counters must be easily extensible to support
+ new projects, and agents doing data collections should be
+ independent of the overall system.
+ .
+ (A ceilometer is an instrument that measures cloud coverage.)
+ .
+ This package contains files that are needed for all parts of ceilometer
+
+Package: ceilometer-polling
+Architecture: all
+Depends:
+ ceilometer-common (= ${binary:Version}),
+ ${misc:Depends},
+ ${python:Depends},
+Suggests:
+ mongodb,
+Description: ceilometer polling service
+ Ceilometer aims to deliver a unique point of contact for billing systems to
+ acquire all counters they need to establish customer billing, across all
+ current and future OpenStack components. The delivery of counters must
+ be traceable and auditable, the counters must be easily extensible to support
+ new projects, and agents doing data collections should be
+ independent of the overall system.
+ .
+ (A ceilometer is an instrument that measures cloud coverage.)
+ .
+ This package contains the polling service.
+
+Package: python-ceilometer
+Architecture: all
+Depends:
+ python-cachetools (>= 2.0.0),
+ python-cinderclient (>= 1:1.6.0),
+ python-concurrent.futures (>= 3.0),
+ python-cotyledon (>= 1.3.0),
+ python-croniter,
+ python-dateutil (>= 2.4.2),
+ python-debtcollector (>= 1.2.0),
+ python-futurist (>= 0.11.0),
+ python-glanceclient (>= 1:2.0.0),
+ python-jsonpath-rw-ext (>= 0.1.9),
+ python-keystoneauth1 (>= 3.3.0),
+ python-keystoneclient (>= 1:1.6.0),
+ python-libvirt,
+ python-lxml (>= 2.3),
+ python-monotonic,
+ python-msgpack (>= 0.4.0),
+ python-neutronclient (>= 1:4.2.0),
+ python-novaclient (>= 2:2.29.0),
+ python-os-xenapi (>= 0.3.1),
+ python-oslo.cache (>= 1.26.0),
+ python-oslo.concurrency (>= 3.25.0),
+ python-oslo.config (>= 1:5.1.0),
+ python-oslo.i18n (>= 3.15.3),
+ python-oslo.log (>= 3.36.0),
+ python-oslo.messaging (>= 5.29.0),
+ python-oslo.reports (>= 0.6.0),
+ python-oslo.rootwrap (>= 2.0.0),
+ python-oslo.serialization (>= 2.18.0),
+ python-oslo.utils (>= 3.33.0),
+ python-pbr (>= 1.10.0),
+ python-pysnmp4 (>= 4.2.3),
+ python-requests (>= 2.8.1),
+ python-six (>= 1.10.0),
+ python-stevedore (>= 1:1.9.0),
+ python-swiftclient (>= 1:2.2.0),
+ python-tenacity (>= 3.2.1),
+ python-tooz (>= 1.47.0),
+ python-yaml (>= 3.1.0),
+ ${misc:Depends},
+ ${python:Depends},
+Suggests:
+ python-gnocchiclient (>= 4.0.0),
+ python-kafka (>= 1.3.2),
+ python-zaqarclient (>= 1.0.0),
+Description: ceilometer python libraries
+ Ceilometer aims to deliver a unique point of contact for billing systems to
+ acquire all counters they need to establish customer billing, across all
+ current and future OpenStack components. The delivery of counters must
+ be traceable and auditable, the counters must be easily extensible to support
+ new projects, and agents doing data collections should be
+ independent of the overall system.
+ .
+ (A ceilometer is an instrument that measures cloud coverage.)
+ .
+ This package contains the python libraries that are needed for all parts
+ of ceilometer
