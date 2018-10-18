@@ -182,6 +182,8 @@ class GnocchiPublisher(publisher.ConfigPublisherBase):
             'filter_project',
             [conf.dispatcher_gnocchi.filter_project])[-1]
 
+        self.filter_project_ids = conf.dispatcher_gnocchi.filter_project_ids
+
         resources_definition_file = options.get(
             'resources_definition_file',
             [conf.dispatcher_gnocchi.resources_definition_file])[-1]
@@ -275,6 +277,16 @@ class GnocchiPublisher(publisher.ConfigPublisherBase):
             return False
 
     def _is_gnocchi_activity(self, sample):
+        project_ids = self.filter_project_ids
+        if project_ids:
+            return (
+                # avoid anything from the user used by gnocchi
+                sample.project_id in project_ids or
+                # avoid anything in the swift account used by gnocchi
+                (sample.resource_id in project_ids and
+                 self._is_swift_account_sample(sample))
+            )
+
         return (self.filter_project and self.gnocchi_project_id and (
             # avoid anything from the user used by gnocchi
             sample.project_id == self.gnocchi_project_id or
