@@ -216,6 +216,7 @@ class GnocchiDispatcher(dispatcher.MeterDispatcherBase,
         self._gnocchi_project_id = None
         self._gnocchi_project_id_lock = threading.Lock()
         self._gnocchi_resource_lock = LockedDefaultDict(threading.Lock)
+        self.filter_project_ids = conf.dispatcher_gnocchi.filter_project_ids
 
         self._gnocchi = gnocchi_client.get_gnocchiclient(conf)
 
@@ -282,6 +283,15 @@ class GnocchiDispatcher(dispatcher.MeterDispatcherBase,
                      and rd.metric_match(sample['counter_name'])])
 
     def _is_gnocchi_activity(self, sample):
+        project_ids = self.filter_project_ids
+        if project_ids:
+            return (self.filter_service_activity and (
+                # avoid anything from the user used by gnocchi
+                sample['project_id'] in project_ids or
+                # avoid anything in the swift account used by gnocchi
+                (sample['resource_id'] in project_ids and
+                 self._is_swift_account_sample(sample))
+            ))
         return (self.filter_service_activity and self.gnocchi_project_id and (
             # avoid anything from the user used by gnocchi
             sample['project_id'] == self.gnocchi_project_id or
