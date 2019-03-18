@@ -82,7 +82,7 @@ INSTANCE_DELETE_START = {
         [
             'instance_type_id',
             2,
-            2
+            '2'
         ],
         [
             'vcpus',
