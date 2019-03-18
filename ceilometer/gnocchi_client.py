@@ -197,6 +197,15 @@ resources_update_operations = [
          "attributes": {"provider": {"type": "string", "min_length": 0,
                                      "max_length": 255, "required": True}}
      }]},
+    {"desc": "add availability_zone to instance",
+     "type": "update_attribute_type",
+     "resource_type": "instance",
+     "data": [{
+         "op": "add",
+         "path": "/attributes/availability_zone",
+         "value": {"type": "string", "min_length": 0, "max_length": 255,
+                   "required": False}
+     }]},
 ]
 
 # NOTE(sileht): We use LooseVersion because pbr can generate invalid
