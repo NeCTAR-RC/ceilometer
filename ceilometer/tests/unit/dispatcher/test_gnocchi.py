@@ -127,6 +127,102 @@ INSTANCE_DELETE_START = {
     'message_id': u'a15b94ee-cb8e-4c71-9abe-14aa80055fb4'
 }
 
+INSTANCE_CREATE_END = {
+    'event_type': u'compute.instance.create.end',
+    'traits': [
+        [
+            'state',
+            1,
+            u'active'
+        ],
+        [
+            'user_id',
+            1,
+            u'1e3ce043029547f1a61c1996d1a531a2'
+        ],
+        [
+            'service',
+            1,
+            u'compute'
+        ],
+        [
+            'availability_zone',
+            1,
+            u'zone1'
+        ],
+        [
+            'disk_gb',
+            2,
+            0
+        ],
+        [
+            'instance_type',
+            1,
+            u'm1.tiny'
+        ],
+        [
+            'tenant_id',
+            1,
+            u'7c150a59fe714e6f9263774af9688f0e'
+        ],
+        [
+            'root_gb',
+            2,
+            0
+        ],
+        [
+            'ephemeral_gb',
+            2,
+            0
+        ],
+        [
+            'instance_type_id',
+            2,
+            '2'
+        ],
+        [
+            'vcpus',
+            2,
+            1
+        ],
+        [
+            'memory_mb',
+            2,
+            512
+        ],
+        [
+            'instance_id',
+            1,
+            u'9f9d01b9-4a58-4271-9e27-398b21ab20d1'
+        ],
+        [
+            'host',
+            1,
+            u'vagrant-precise'
+        ],
+        [
+            'request_id',
+            1,
+            u'req-fb3c4546-a2e5-49b7-9fd2-a63bd658bc39'
+        ],
+        [
+            'project_id',
+            1,
+            u'7c150a59fe714e6f9263774af9688f0e'
+        ],
+        [
+            'launched_at',
+            4,
+            '2012-05-08T20:23:47'
+        ]
+    ],
+    'message_signature':
+        '831719d54059734f82e7d6498c6d7a8fd637568732e79c1fd375e128f142373a',
+    'raw': {},
+    'generated': '2012-05-08T20:24:14.824743',
+    'message_id': u'a15b94ee-cb8e-4c71-9abe-14aa80055fb4'
+}
+
 IMAGE_DELETE_START = {
     u'event_type': u'image.delete',
     u'traits': [
@@ -630,7 +726,7 @@ class DispatcherWorkflowTest(base.BaseTestCase,
             self.sample, self.conf.conf.publisher.telemetry_secret)
 
     @mock.patch('gnocchiclient.v1.client.Client')
-    def test_event_workflow(self, fakeclient_cls):
+    def test_delete_event_workflow(self, fakeclient_cls):
         self.dispatcher = gnocchi.GnocchiDispatcher(self.conf.conf)
 
         fakeclient = fakeclient_cls.return_value
@@ -683,6 +779,33 @@ class DispatcherWorkflowTest(base.BaseTestCase,
                                       VOLUME_DELETE_START,
                                       FLOATINGIP_DELETE_END])
         self.assertEqual(9, len(fakeclient.mock_calls))
+        for call in expected_calls:
+            self.assertIn(call, fakeclient.mock_calls)
+
+    @mock.patch('gnocchiclient.v1.client.Client')
+    def test_create_event_workflow(self, fakeclient_cls):
+        self.dispatcher = gnocchi.GnocchiDispatcher(self.conf.conf)
+
+        fakeclient = fakeclient_cls.return_value
+
+        now = timeutils.utcnow()
+        self.useFixture(utils_fixture.TimeFixture(now))
+
+        expected_calls = [
+            mock.call.capabilities.list(),
+            mock.call.resource.create(
+                'instance',
+                {'id': '9f9d01b9-4a58-4271-9e27-398b21ab20d1',
+                 'user_id': '1e3ce043029547f1a61c1996d1a531a2',
+                 'project_id': '7c150a59fe714e6f9263774af9688f0e',
+                 'availability_zone': 'zone1',
+                 'flavor_name': 'm1.tiny',
+                 'flavor_id': '2',
+                 'host': 'vagrant-precise'}),
+        ]
+
+        self.dispatcher.record_events([INSTANCE_CREATE_END])
+        self.assertEqual(2, len(fakeclient.mock_calls))
         for call in expected_calls:
             self.assertIn(call, fakeclient.mock_calls)
 
