@@ -498,8 +498,13 @@ class GnocchiPublisher(publisher.ConfigPublisherBase):
         try:
             self._create_resource(resource_type, resource)
         except gnocchi_exc.ResourceAlreadyExists:
-            LOG.debug("Create event received on existing resource (%s), "
-                      "ignore it.", resource['id'])
+            try:
+                resource_id = resource.pop('id')
+                self._gnocchi.resource.update(resource_type, resource_id,
+                                              resource)
+            except Exception:
+                LOG.error("Fail to update the resource %s", resource,
+                          exc_info=True)
         except Exception:
             LOG.error("Failed to create resource %s", resource,
                       exc_info=True)
