@@ -1,0 +1,18 @@
+#!/bin/bash
+#---------------------
+# Testing /usr/bin/ceilometer-* shebangs
+#---------------------
+set -e
+
+BINARIES=('ceilometer-polling' 'ceilometer-agent-notification' \
+          'ceilometer-send-sample' 'ceilometer-upgrade' 'ceilometer-rootwrap')
+
+ret=0
+
+for binary in "${BINARIES[@]}"; do
+    if ! `dirname $0`/test-shebang.py $binary python2.7; then
+        ret=1
+    fi
+done
+
+exit $ret

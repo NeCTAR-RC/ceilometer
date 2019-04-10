@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+export OSLO_PACKAGE_VERSION=$(shell dpkg-parsechangelog | sed -n -e 's/^Version: //p')
+
+DEBVERS ?= $(shell dpkg-parsechangelog | sed -n -e 's/^Version: //p')
+VERSION ?= $(shell echo '$(DEBVERS)' | sed -e 's/^[[:digit:]]*://' -e 's/[-].*//' -e 's/[+].*//' -e 's/~git.*//g' -e 's/~/./g')
+export PBR_VERSION=$(VERSION)
+export HOME="$(CURDIR)/debian/test"
+
+include /usr/share/openstack-pkg-tools/pkgos.make
+
+%:
+	dh $@  --with python2,python3,systemd
+
+get-orig-source:
+	uscan --verbose --force-download --rename --destdir=../build-area
+
+ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
+override_dh_auto_test:
+	PYTHON=python OS_TEST_PATH=./ceilometer/tests/unit ostestr --blacklist-file=$(CURDIR)/debian/test-blacklist.txt
+	PYTHON=python3 OS_TEST_PATH=./ceilometer/tests/unit ostestr --blacklist-file=$(CURDIR)/debian/test-blacklist.txt
+endif
+
+override_dh_auto_install:
+	pkgos-dh_auto_install
+
+override_dh_install:
+	PYTHONPATH=$(CURDIR) oslo-config-generator --config-file=etc/ceilometer/ceilometer-config-generator.conf
+	rm -rf $(CURDIR)/debian/python*-ceilometer/usr/etc
+	dh_install
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -f etc/ceilometer/ceilometer.conf etc/ceilometer/ceilometer.conf.sample
+	rm -rf .testrepository .stestr
+	rm -rf pbr*.egg
+	rm -f debian/*.init debian/*.service debian/*.upstart

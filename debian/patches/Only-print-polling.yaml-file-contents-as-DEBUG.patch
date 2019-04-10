@@ -1,0 +1,36 @@
+From 50f268f23852af2b1bc5f1aed4405786a47b7839 Mon Sep 17 00:00:00 2001
+From: Edward Hope-Morley <edward.hope-morley@canonical.com>
+Date: Thu, 10 Jan 2019 16:15:16 +0000
+Subject: [PATCH] Only print polling.yaml file contents as DEBUG
+
+Since this file can contain sensitive information such
+as admin credentials of target resources (e.g. snmp) it
+is not a good idea to print this log as INFO since admins
+might want to have INFO level logging but without the risk
+of it containing this kind of information.
+
+We might want to consider remmoving this log altogether.
+
+Closes-Bug: #1811098
+(cherry picked from commit 8881a42af169a2d7c912b1434911f978883c83f3)
+Change-Id: Iff5fcc4b6c30142f2c5c9ad26027dc5a6542a881
+---
+ ceilometer/agent.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ceilometer/agent.py b/ceilometer/agent.py
+index c5a15fd..f722177 100644
+--- a/ceilometer/agent.py
++++ b/ceilometer/agent.py
+@@ -67,7 +67,7 @@ class ConfigManagerBase(object):
+         conf = yaml.safe_load(data)
+         self.cfg_mtime = self.get_cfg_mtime()
+         self.cfg_hash = self.get_cfg_hash()
+-        LOG.info("Config file: %s", conf)
++        LOG.debug("Config file: %s", conf)
+         return conf
+ 
+     def get_cfg_mtime(self):
+-- 
+2.7.4
+

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "configure" ] ; then
+	update-alternatives --install /usr/bin/ceilometer-polling ceilometer-polling /usr/bin/python2-ceilometer-polling 300
+	update-alternatives --install /usr/bin/ceilometer-agent-notification ceilometer-agent-notification /usr/bin/python2-ceilometer-agent-notification 300
+	update-alternatives --install /usr/bin/ceilometer-send-sample ceilometer-send-sample /usr/bin/python2-ceilometer-send-sample 300
+	update-alternatives --install /usr/bin/ceilometer-upgrade ceilometer-upgrade /usr/bin/python2-ceilometer-upgrade 300
+	update-alternatives --install /usr/bin/ceilometer-rootwrap ceilometer-rootwrap /usr/bin/python2-ceilometer-rootwrap 300
+fi
+
+#DEBHELPER#
+
+exit 0

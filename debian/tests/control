@@ -1,0 +1,9 @@
+Tests: test-services ceilometer-shebangs-py3
+Depends: python3-ceilometer, ceilometer-common, ceilometer-agent-compute,
+ ceilometer-agent-central, ceilometer-agent-ipmi, ceilometer-agent-notification,
+ ceilometer-polling, rabbitmq-server, python-libvirt, libvirt-daemon-system
+
+Tests: test-services ceilometer-shebangs-py2
+Depends: ceilometer-common, ceilometer-agent-compute, ceilometer-agent-central,
+ ceilometer-agent-ipmi, ceilometer-agent-notification, ceilometer-polling,
+ rabbitmq-server, python-libvirt, libvirt-daemon-system

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "remove" ] ; then
+	update-alternatives --remove ceilometer-polling /usr/bin/python2-ceilometer-polling
+	update-alternatives --remove ceilometer-agent-notification /usr/bin/python2-ceilometer-agent-notification
+	update-alternatives --remove ceilometer-send-sample /usr/bin/python2-ceilometer-send-sample
+	update-alternatives --remove ceilometer-upgrade /usr/bin/python2-ceilometer-upgrade
+	update-alternatives --remove ceilometer-rootwrap /usr/bin/python2-ceilometer-rootwrap
+fi
+
+#DEBHELPER#
+
+exit 0
