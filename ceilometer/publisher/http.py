@@ -63,6 +63,7 @@ class HttpPublisher(publisher.ConfigPublisherBase):
     the sinks like the following:
 
           - name: event_sink
+            transformers:
             publishers:
                 - http://host:80/path?timeout=1&max_retries=2
 

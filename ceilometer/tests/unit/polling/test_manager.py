@@ -677,6 +677,7 @@ class TestPollingAgent(BaseAgent):
                 'sinks': ['test_sink']}],
             'sinks': [{
                 'name': 'test_sink',
+                'transformers': [],
                 'publishers': ["test"]}]
         }
         self.setup_polling(poll_cfg)
@@ -719,6 +720,7 @@ class TestPollingAgent(BaseAgent):
                 'sinks': ['test_sink']}],
             'sinks': [{
                 'name': 'test_sink',
+                'transformers': [],
                 'publishers': ["test"]}]
         }
         self.setup_polling(poll_cfg)
@@ -740,6 +742,7 @@ class TestPollingAgent(BaseAgent):
                 'sinks': ['test_sink']}],
             'sinks': [{
                 'name': 'test_sink',
+                'transformers': [],
                 'publishers': ["test"]}]
         }
         self.setup_polling(poll_cfg)
@@ -768,6 +771,7 @@ class TestPollingAgent(BaseAgent):
                 'sinks': ['test_sink']}],
             'sinks': [{
                 'name': 'test_sink',
+                'transformers': [],
                 'publishers': ["test"]}]
         }
         self.setup_polling(poll_cfg)
@@ -808,6 +812,7 @@ class TestPollingAgent(BaseAgent):
                 'sinks': ['test_sink']}],
             'sinks': [{
                 'name': 'test_sink',
+                'transformers': [],
                 'publishers': ["test"]}]
         }
         self.setup_polling(poll_cfg)
