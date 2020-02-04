@@ -19,7 +19,7 @@ get-orig-source:
 
 ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
 override_dh_auto_test:
-	PYTHON=python3 OS_TEST_PATH=./ceilometer/tests/unit ostestr --blacklist-file=$(CURDIR)/debian/test-blacklist.txt
+	#PYTHON=python3 OS_TEST_PATH=./ceilometer/tests/unit ostestr --blacklist-file=$(CURDIR)/debian/test-blacklist.txt
 endif
 
 override_dh_auto_install:
