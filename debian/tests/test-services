@@ -1,0 +1,30 @@
+#!/bin/bash
+#----------------------------
+# Testing ceilometer services
+#----------------------------
+set -e
+SERVICES=('ceilometer-agent-central'
+          'ceilometer-agent-compute'
+          'ceilometer-agent-notification'
+          'ceilometer-polling')
+
+# Doesn't work on s390x, and probably not needed as that is not an
+# IMPI architecture
+arch=`dpkg --print-architecture`
+if [ $arch = 'amd64' ] || [ $arch = 'i386' ]
+then
+    SERVICES+=('ceilometer-agent-ipmi')
+fi
+
+ret=0
+
+for service in "${SERVICES[@]}"; do
+    if systemctl is-active $service > /dev/null; then
+        echo "OK"
+    else
+        echo "ERROR: ${service} IS NOT RUNNING"
+        ret=1
+    fi
+done
+
+exit $ret

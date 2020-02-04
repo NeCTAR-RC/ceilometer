@@ -1,0 +1,2 @@
+ceilometer.tests.unit.test_bin.*
+ceilometer.tests.tempest.*

@@ -1,0 +1,4 @@
+Tests: test-services
+Depends: ceilometer-common, ceilometer-agent-compute, ceilometer-agent-central,
+ ceilometer-agent-ipmi, ceilometer-agent-notification, ceilometer-polling,
+ rabbitmq-server, python3-libvirt, libvirt-daemon-system
