@@ -227,7 +227,8 @@ class PollingTask(object):
 class AgentManager(cotyledon.Service):
 
     def __init__(self, worker_id, conf, namespaces=None):
-        namespaces = namespaces or ['compute', 'central']
+        if namespaces is None:
+            namespaces = conf.polling_namespaces or ['compute', 'central']
         group_prefix = conf.polling.partitioning_group_prefix
 
         super(AgentManager, self).__init__(worker_id)
