@@ -622,4 +622,17 @@
       fields: payload.detail
     type:
       fields: payload.type
-
+- event_type: 'lease.*'
+  traits:
+    lease_id:
+      fields: payload.lease_id
+    user_id:
+      fields: payload.user_id
+    project_id:
+      fields: payload.project_id
+    start_date:
+      type: datetime
+      fields: payload.start_date
+    end_date:
+      type: datetime
+      fields: payload.end_date
