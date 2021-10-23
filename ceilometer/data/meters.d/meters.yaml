@@ -203,7 +203,7 @@ metric:
       deleted_at: $.payload.deleted_at
 
   - name: 'vcpus'
-    event_type: *instance_events
+    event_type: compute.instance.exists
     type: 'gauge'
     unit: 'vcpu'
     volume: $.payload.vcpus
