@@ -191,7 +191,7 @@ class BaseRealNotification(BaseNotificationTest):
         self.run_service(self.srv)
         notifier = messaging.get_notifier(self.transport,
                                           "compute.vagrant-precise")
-        notifier.info({}, 'compute.instance.create.end',
+        notifier.info({}, 'compute.instance.exists',
                       TEST_NOTICE_PAYLOAD)
         start = time.time()
         while time.time() - start < 60:
