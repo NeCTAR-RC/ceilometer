@@ -446,3 +446,15 @@ metric:
       status: $.payload.status
       availability_zone: $.payload.availability_zone
       protocol: $.payload.proto
+
+  - name: 'warre.reservation.exists'
+    event_type: warre.reservation.exists
+    type: 'gauge'
+    unit: 'reservation'
+    volume: 1
+    user_id: $.payload.user_id
+    project_id: $.payload.project_id
+    resource_id: $.payload.id
+    metadata:
+      flavor_id: $.payload.flavor.id
+      flavor_name: $.payload.flavor.name

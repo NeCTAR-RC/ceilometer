@@ -636,3 +636,21 @@
     end_date:
       type: datetime
       fields: payload.end_date
+- event_type: 'warre.*'
+  traits:
+    resource_id:
+      fields: payload.id
+    user_id:
+      fields: payload.user_id
+    project_id:
+      fields: payload.project_id
+    flavor_id:
+      fields: payload.flavor.id
+    flavor_name:
+      fields: payload.flavor.name
+    start_date:
+      type: datetime
+      fields: payload.start
+    end_date:
+      type: datetime
+      fields: payload.end
