@@ -457,6 +457,8 @@ metric:
     metadata:
       flavor_id: $.payload.flavor.id
       flavor_name: $.payload.flavor.name
+      category: $.payload.flavor.category
+      availability_zone: $.payload.flavor.availability_zone
 
   - name: 'warre.reservation.in_use'
     event_type: warre.reservation.in_use
@@ -469,3 +471,5 @@ metric:
     metadata:
       flavor_id: $.payload.flavor.id
       flavor_name: $.payload.flavor.name
+      category: $.payload.flavor.category
+      availability_zone: $.payload.flavor.availability_zone
