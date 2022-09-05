@@ -457,3 +457,15 @@ metric:
     metadata:
       flavor_id: $.payload.flavor.id
       flavor_name: $.payload.flavor.name
+
+  - name: 'warre.reservation.in_use'
+    event_type: warre.reservation.in_use
+    type: 'gauge'
+    unit: 'reservation'
+    volume: 1
+    user_id: $.payload.user_id
+    project_id: $.payload.project_id
+    resource_id: $.payload.id
+    metadata:
+      flavor_id: $.payload.flavor.id
+      flavor_name: $.payload.flavor.name
