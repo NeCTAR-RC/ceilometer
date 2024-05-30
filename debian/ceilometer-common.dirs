@@ -1,0 +1,4 @@
+etc/ceilometer
+etc/ceilometer/rootwrap.d
+var/lib/ceilometer
+var/log/ceilometer
