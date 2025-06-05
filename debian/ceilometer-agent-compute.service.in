@@ -1,0 +1,20 @@
+[Unit]
+Description=Ceilometer Agent Compute
+After=mongodb.service rabbitmq-server.service nova-compute.service network-online.target local-fs.target remote-fs.target
+Wants=network-online.target
+Requires=nova-compute.service
+
+[Service]
+User=ceilometer
+Group=ceilometer
+Type=simple
+WorkingDirectory=~
+RuntimeDirectory=ceilometer lock/ceilometer
+CacheDirectory=ceilometer
+ExecStart=/etc/init.d/ceilometer-agent-compute systemd-start
+Restart=on-failure
+LimitNOFILE=65535
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target
