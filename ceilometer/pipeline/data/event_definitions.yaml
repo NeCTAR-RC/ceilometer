@@ -654,3 +654,17 @@
     end_date:
       type: datetime
       fields: payload.end
+- event_type: 'jupyterhub.*'
+  traits:
+    resource_id:
+      fields: payload.id
+    user_id:
+      fields: payload.user_id
+    server_name:
+      fields: payload.server_name
+    profile:
+      fields: payload.profile
+    image:
+      fields: payload.image
+    hub:
+      fields: payload.hub
