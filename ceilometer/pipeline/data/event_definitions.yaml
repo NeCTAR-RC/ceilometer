@@ -668,3 +668,7 @@
       fields: payload.image
     hub:
       fields: payload.hub
+    repo_url:
+      fields: payload.repo_url
+    ref_url:
+      fields: payload.ref_url

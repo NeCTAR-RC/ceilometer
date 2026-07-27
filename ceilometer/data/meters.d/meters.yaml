@@ -475,19 +475,6 @@ metric:
       category: $.payload.flavor.category
       availability_zone: $.payload.flavor.availability_zone
 
-  - name: 'jupyterhub.notebook.exists'
-    event_type: jupyterhub.notebook.exists
-    type: 'gauge'
-    unit: 'notebook'
-    volume: 1
-    user_id: $.payload.user_id
-    resource_id: $.payload.id
-    metadata:
-      server_name: $.payload.server_name
-      profile: $.payload.profile
-      image: $.payload.image
-      hub: $.payload.hub
-
   - name: 'jupyterhub.notebook.start'
     event_type: jupyterhub.notebook.start
     type: 'delta'
@@ -500,3 +487,5 @@ metric:
       profile: $.payload.profile
       image: $.payload.image
       hub: $.payload.hub
+      repo_url: $.payload.repo_url
+      ref_url: $.payload.ref_url
